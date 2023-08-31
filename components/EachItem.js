@@ -3,14 +3,17 @@ import { StyleSheet, Text, TouchableOpacity, View , Alert , Button, ScrollView }
 import {useState , useEffect} from 'react'
 
 
-export default function Item({title}){
+export default function Item({navigation , route}){
 
+    const title = route.params.title ;
+    const body = route.params.body ;
 
     return (
         <>  
             <ScrollView>
                 <View style = {styles.container}>
                     <Text style={styles.text}>Text : {title}</Text>
+                    <Text style={styles.text}>Body : {body}</Text>
                     {/* <Text style={styles.text}>Body : {body}</Text> */}
                 </View>
                 

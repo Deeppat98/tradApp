@@ -1,67 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View , Alert , Button , ActivityIndicator, ScrollView } from 'react-native';
-import {useState , useEffect} from 'react'
-import Items from './components/Items'
-export default function App() {
-  const [data, setData] = useState([]);
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Home from "./components/Home"
+import EachItem from './components/EachItem'
+import  Item from './components/Item'
 
-  useEffect(() => {
-    const btnHandler = async () => {
-      const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-      const json = await response.json() ; 
-      setData(json);
-      // Alert.alert("I am clicked !") ; 
-    }
+const Stack = createNativeStackNavigator();
 
-    btnHandler() ; 
-  })
-  const btnHandler = async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
-    const json = await response.json() ; 
-    setData(json);
-    Alert.alert("I am clicked !") ; 
-  }
+
+export default function App () {
   
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="eachItem" component={EachItem} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
   
-  return (
-    
-    // <ScrollView>
-    <>
 
-    <ScrollView >
-      <View style={styles.container}>
-
-      <TouchableOpacity onPress={() => {}}>
-        <View>
-          <Text>Click Here</Text>
-        </View>
-      </TouchableOpacity>
-      <Text>Hello World ! How are You !</Text>
-      <Text>I am Good !</Text>
-      <Button
-        onPress={btnHandler}
-        title="Click Me"
-        color="#841584"
-      />
-      <StatusBar style="auto" />
-
-      </View>
-      
-    
-    <View>
-      {data ? <Items data={data} /> : <Text>Didn't got the data</Text>    }
-    </View>
-
-    </ScrollView>
-    </>
-  );
+  return (<>
+  </>)
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

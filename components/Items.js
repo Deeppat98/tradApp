@@ -2,24 +2,30 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, TouchableOpacity, View , Alert , Button, SafeAreaView ,ScrollView, FlatList} from 'react-native';
 import {useState , useEffect} from 'react'
 import Item from './Item'
+import { useNavigation } from '@react-navigation/native';
 
-export default function Items({data}){
+export default function Items({data , navigation}){
+    
     // const data
 
-    const handleClick =async (postId)  => {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
-    const json = await response.json() ; 
+    const handleClick = async (postId)  => {
+      // const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+      // const json = await response.json() ; 
+      return fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+    .then(response => response.json())
+    .then(json => {
+      return navigation.navigate('eachItem' , {title : json.title , body : json.body});
+    })
+    .catch(error => {
+      console.error(error);
+    });
     // setData(json);
-    Alert.alert(json.id + " " + json.body) ; 
+      // navigation.navigate('item' , {title : json.title , body : json.body})
+      // navigation.navigate('eachItem' , {title : json.title , body : json.body});
+    // Alert.alert(json.id + " " + json.body) ; 
     }
 
     return (<SafeAreaView>
-      {/* <FlatList
-      data={data}
-      renderItem={({item}) => <Item title={item.title} body={item.body} />}
-      // renderItem={({item}) => (<Text>{item.id}</Text>)}
-      keyExtractor={item => item.id}
-      /> */}
       {
         data.map((item) => {
           return (
