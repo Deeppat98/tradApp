@@ -27,10 +27,6 @@ export default function App() {
     
     // <ScrollView>
     <>
-    
-
-    
-
 
     <ScrollView >
       <View style={styles.container}>
@@ -46,7 +42,6 @@ export default function App() {
         onPress={btnHandler}
         title="Click Me"
         color="#841584"
-        // accessibilityLabel="Learn more about this purple button"
       />
       <StatusBar style="auto" />
 

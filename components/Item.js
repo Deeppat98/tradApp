@@ -10,7 +10,7 @@ export default function Item({title , body}){
             <ScrollView>
                 <View style = {styles.container}>
                     <Text style={styles.text}>Text : {title}</Text>
-                    <Text style={styles.text}>Body : {body}</Text>
+                    {/* <Text style={styles.text}>Body : {body}</Text> */}
                 </View>
                 
             </ScrollView>
