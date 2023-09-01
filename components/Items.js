@@ -3,18 +3,18 @@ import { StyleSheet, Text, TouchableOpacity, View , Alert , Button, SafeAreaView
 import {useState , useEffect} from 'react'
 import Item from './Item'
 import { useNavigation } from '@react-navigation/native';
-
-export default function Items({data , navigation}){
+// import { useNavigation } from '@react-navigation/native';
+export default function Items({data}){
     
     // const data
-
+    const navigation = useNavigation();
     const handleClick = async (postId)  => {
       // const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
       // const json = await response.json() ; 
       return fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
     .then(response => response.json())
     .then(json => {
-      return navigation.navigate('eachItem' , {title : json.title , body : json.body});
+      navigation.navigate('EachItem' , {title : json.title , body : json.body} );
     })
     .catch(error => {
       console.error(error);
