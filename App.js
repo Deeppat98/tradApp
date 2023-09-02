@@ -7,7 +7,7 @@ import EachItem from './components/EachItem'
 import Items from './components/Items'
 import Login from './components/Login'
 // import NewLogin from './components/NewLogin';
-import Loginfb from './components/Loginfb'
+// import Loginfb from './components/Loginfb'
 
 const Stack = createNativeStackNavigator();
 
@@ -18,7 +18,7 @@ export default function App () {
       <NavigationContainer>
         <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Loginfb" component={Loginfb} />
+        {/* <Stack.Screen name="Loginfb" component={Loginfb} /> */}
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="EachItem" component={EachItem} />
           <Stack.Screen name="items" component={Items} />
