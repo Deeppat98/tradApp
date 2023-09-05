@@ -7,15 +7,13 @@ export default function EachItem({navigation , route}){
 
     const title = route.params.title ;
     const body = route.params.body ;
-
+    
     return (
         <>  
             <ScrollView>
                 <View style = {styles.container}>
                     <Text style={styles.text}>Text : {title}</Text>
                     <Text style={styles.text}>Body : {body}</Text>
-                    {/* <Text>Welcome to Each Item !!</Text> */}
-                    {/* <Text style={styles.text}>Body : {body}</Text> */}
                 </View>
                 
             </ScrollView>
