@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -6,6 +7,8 @@ import EachItem from './components/EachItem'
 // import  Item from './components/Item'
 import Items from './components/Items'
 import Login from './components/Login'
+// import Tailwind from './components/Tailwind';
+import Content from './components/Content'
 // import NewLogin from './components/NewLogin';
 // import Loginfb from './components/Loginfb'
 
@@ -17,6 +20,9 @@ export default function App () {
     return (
       <NavigationContainer>
         <Stack.Navigator>
+        <Stack.Screen name="Content" component={Content} />
+        {/* <Stack.Screen name="Tailwind" component={Tailwind} /> */}
+
         <Stack.Screen name="Login" component={Login} />
         {/* <Stack.Screen name="Loginfb" component={Loginfb} /> */}
           <Stack.Screen name="Home" component={Home} />
