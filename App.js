@@ -9,6 +9,7 @@ import Items from './components/Items'
 import Login from './components/Login'
 // import Tailwind from './components/Tailwind';
 import Content from './components/Content'
+import { NativeBaseProvider } from 'native-base';
 // import NewLogin from './components/NewLogin';
 // import Loginfb from './components/Loginfb'
 
@@ -19,7 +20,9 @@ export default function App () {
   
     return (
       <NavigationContainer>
+        <NativeBaseProvider>
         <Stack.Navigator>
+        
         <Stack.Screen name="Content" component={Content} />
         {/* <Stack.Screen name="Tailwind" component={Tailwind} /> */}
 
@@ -28,7 +31,9 @@ export default function App () {
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen name="EachItem" component={EachItem} />
           <Stack.Screen name="items" component={Items} />
+
         </Stack.Navigator>
+        </NativeBaseProvider>
       </NavigationContainer>
     );
   

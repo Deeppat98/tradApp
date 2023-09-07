@@ -1,25 +1,23 @@
 import React , {useEffect , useState} from 'react'
-import {View, Text} from 'react-native'
+import {View , Text} from 'react-native'
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection ,doc, getDoc,  getDocs } from "firebase/firestore";
+import initializeFirebase from '../config/firebase.js'
+import { SafeAreaView } from "react-native";
+// import BoxDesign from './BoxDesign'
+
 
 const Content = () => {
-    const [data , setData] = useState([])
-    const firebaseConfig = {
-        apiKey: "AIzaSyCPPsIlSr9d2JzOa55ctuHVqMYBmtv0ZB0",
-        authDomain: "baps-translation.firebaseapp.com",
-        projectId: "baps-translation",
-        storageBucket: "baps-translation.appspot.com",
-        messagingSenderId: "269187257441",
-        appId: "1:269187257441:web:156e88cf69cac13aaf4620"
-      };
-      const app = initializeApp(firebaseConfig); 
+      const app = initializeFirebase() ; 
       const db = getFirestore(app); 
+
+
+      const [data , setData] = useState([])
+      
       async function getCities(db) {
-        const citiesCol = collection(db, 'gita');
+        const citiesCol =  collection(db, 'gita');
         const citySnapshot = await getDocs(citiesCol);
-        const cityList = citySnapshot.docs.map(doc => doc.data());
-        // console.log(citiesCol.list_documents());
+        const cityList =  citySnapshot.docs.map(doc => doc.data());
         console.log(cityList); 
         setData(cityList)  ; 
         return cityList;
@@ -29,17 +27,29 @@ const Content = () => {
       },[])
   return (
     <>
+{/* 
+<Box p="2" bg="primary.500" _text={{
+      fontSize: 'md',
+      fontWeight: 'medium',
+      color: 'warmGray.50',
+      letterSpacing: 'lg'
+    }} shadow={2}>
+        This is a Box
+      </Box> */}
+
+    {/* <BoxDesign />  */}
+      
     {
             data.map((x , index) => {
                 return (<>
                 <View key={index}>
-                <Text>Name : {x.english}</Text>
-                <Text>City : {x.french}</Text>
+                  <Text className="text-xl">Name : {x.english}</Text>
+                  <Text>City : {x.french}</Text>
                 </View>
-                    
                 </>)
             })
         }
+        {/* <Text>Hello Bro ! How are you !</Text> */}
     </>
   )
 }

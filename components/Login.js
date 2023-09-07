@@ -1,10 +1,8 @@
 import { View, Alert, Text, Image, TextInput, ScrollView, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { React, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-// import ReactNativeAsyncStorage from 'react-native-async-storage/async-storage';
-
+import initializeFirebase from '../config/firebase.js'
 
 export default function Login(){
 
@@ -14,15 +12,8 @@ export default function Login(){
 
 
   const handleLogin = async () => {
-    const firebaseConfig = {
-      apiKey: "AIzaSyCPPsIlSr9d2JzOa55ctuHVqMYBmtv0ZB0",
-      authDomain: "baps-translation.firebaseapp.com",
-      projectId: "baps-translation",
-      storageBucket: "baps-translation.appspot.com",
-      messagingSenderId: "269187257441",
-      appId: "1:269187257441:web:156e88cf69cac13aaf4620"
-    };
-    const app = initializeApp(firebaseConfig);
+    
+    const app = initializeFirebase();
     const auth = getAuth(app);
 
     try {
