@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection ,doc, getDoc, getDocs } from "firebase/firestore";
 
 
 export default function initializeFirebase(){

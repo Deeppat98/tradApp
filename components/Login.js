@@ -3,14 +3,18 @@ import { React, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import initializeFirebase from '../config/firebase.js'
+import { useFonts } from 'expo-font';
 
-export default function Login(){
-
-
+export default function Login({}){
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const [loaded] = useFonts({
+    MontserratSemiBold : require("../assets/fonts/Montserrat-SemiBold.ttf"),
+    MontserratBold : require("../assets/fonts/Montserrat-Bold.ttf")
 
+  })
+  if(!loaded) return null ; 
   const handleLogin = async () => {
     
     const app = initializeFirebase();
@@ -38,7 +42,7 @@ export default function Login(){
       </View>
 
       <View>
-        <Text style={{ color: "#c45c5b", fontSize: 30, fontWeight: "bold", marginTop: 30, textAlign: "center" }}>BAPS Translation</Text>
+        <Text style={{ color: "#c45c5b", fontSize: 30,  marginTop: 30, textAlign: "center", fontFamily : "MontserratBold"}}>BAPS Translation</Text>
       </View>
       <KeyboardAvoidingView>
 
@@ -106,6 +110,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     // color: "#c45c5b",
     marginLeft: 40,
+    // fontFamily : `${MontserratSemiBold}`
+    fontFamily : "MontserratSemiBold"
 
   },
 
@@ -121,12 +127,17 @@ const styles = StyleSheet.create({
     padding: hp('2%'),
     width: wp('80%'),
     alignItems: 'center',
+
+    
+
     // marginLeft: 40
 
   },
   buttonText: {
     color: 'white',
-    fontSize: hp('2%'),
-    fontWeight: "bold"
+    fontSize: hp('2.5%'),
+    fontWeight: "bold",
+    // fontFamily : `${MontserratSemiBold}`
+    fontFamily : "MontserratSemiBold"
   },
 });

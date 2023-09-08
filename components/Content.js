@@ -10,7 +10,24 @@ import { SafeAreaView } from "react-native";
 const Content = () => {
       const app = initializeFirebase() ; 
       const db = getFirestore(app); 
-
+      // const [loaded , setLoaded] = useState(false);
+      // useEffect(()=>{
+      //   async function loadFonts(){
+      //     await Font.loadAsync({
+      //       'Montserrat': require("../assets/fonts/Montserrat-Regular.ttf"),
+      //       'Montserrat-SemiBold': require('../assets/fonts/Montserrat-SemiBold.ttf'),
+      //       'Montserrat-Bold': require('../assets/fonts/Montserrat-Bold.ttf'),
+      //     }).then(res=>{
+      //       console.log("FONTS LOADED!");
+      //       setLoaded(true)
+      //     }).catch(Err=>{
+      //       setLoaded(true);
+      //       console.log(Err);
+      //     }); 
+      //   }
+    
+      //   loadFonts();
+      // },[])
 
       const [data , setData] = useState([])
       
@@ -43,8 +60,8 @@ const Content = () => {
             data.map((x , index) => {
                 return (<>
                 <View key={index}>
-                  <Text className="text-xl">Name : {x.english}</Text>
-                  <Text>City : {x.french}</Text>
+                  <Text className="text-md mt-5" style={{fontFamily : "Montserrat SemiBold"}}>Name : {x.english}</Text>
+                  <Text style={{fontFamily : "Montserrat SemiBold"}}>City : {x.french}</Text>
                 </View>
                 </>)
             })
