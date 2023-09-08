@@ -1,20 +1,42 @@
 import { View, Alert, Text, Image, TextInput, ScrollView, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
-import { React, useState } from 'react'
+import { React, useEffect, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import initializeFirebase from '../config/firebase.js'
+// import { useFonts } from 'expo-font';
+import loadFonts from '../config/loadFonts.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
-
-export default function Login({}){
+export default function Login({navigation}){
+  
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
   const [loaded] = useFonts({
     MontserratSemiBold : require("../assets/fonts/Montserrat-SemiBold.ttf"),
     MontserratBold : require("../assets/fonts/Montserrat-Bold.ttf")
-
   })
-  if(!loaded) return null ; 
+  if(!loaded) return null ;
+  // loadFonts() ; 
+  
+ 
+ 
+  
+  // const [loaded] = useFonts({
+  //   MontserratSemiBold : require("../assets/fonts/Montserrat-SemiBold.ttf"),
+  //   MontserratBold : require("../assets/fonts/Montserrat-Bold.ttf")
+  // })
+  // if(!loaded) return null ; 
+  const storeData = async (uid) => {
+    try {
+      await AsyncStorage.setItem('email', username);
+      await AsyncStorage.setItem('password' , password) ; 
+      await AsyncStorage.setItem('uid' , uid);
+      console.log('set hai');
+    } catch (e) {
+      // saving error
+      console.log("yaha par error" , e.message) ; 
+    }
+  };
   const handleLogin = async () => {
     
     const app = initializeFirebase();
@@ -23,7 +45,10 @@ export default function Login({}){
     try {
       const userCredential = await signInWithEmailAndPassword(auth, username, password);
       const user = userCredential.user;
+      await storeData(user.uid);
       Alert.alert("Signed In Successfully :)\n", "User Id: " + user.uid);
+      //localStorage me user ka data rakhna hai ab 
+      navigation.navigate('Publications');
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
