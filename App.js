@@ -12,6 +12,7 @@ import Content from './components/Content'
 import { useFonts } from 'expo-font';
 import Publications from './components/Publications';
 import Font from './components/Font'
+import BookRenderingPage from './components/BookRenderingPage'
 
 
 const Stack = createNativeStackNavigator();
@@ -35,6 +36,7 @@ export default function App() {
             fontWeight: 'bold',
           },
         }} />
+        <Stack.Screen name="BookRenderingPage" component={BookRenderingPage} />
         <Stack.Screen name="Font" component={Font} />
         <Stack.Screen name="Content" component={Content} />
         <Stack.Screen name="Home" component={Home} />

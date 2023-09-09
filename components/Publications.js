@@ -1,10 +1,12 @@
-import { View, Text  , Button } from 'react-native'
+import { View, Text  , Button , Alert,TouchableOpacity } from 'react-native'
 import React, { useEffect , useState } from 'react'
 import initializeFirebase from '../config/firebase.js'
 import { getFirestore ,onSnapshot , doc, getDoc,  getDocs } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { collection, query, where } from "firebase/firestore";
-const Publications = () => {
+
+
+const Publications = ({navigation}) => {
   const app = initializeFirebase();
   const db = getFirestore(); 
   
@@ -28,9 +30,12 @@ const Publications = () => {
       setAllottedBooks(users[0].allotedTexts); 
       // console.log(allottedBooks) ; 
       // console.log(typeof(users[0])) ; 
-      console.log(users[0]) ; 
-      console.log(users[0].allotedTexts)  ; 
+      // console.log(userData);
+      // console.log(users[0]) ; 
+      // console.log(users[0].allotedTexts)  ; 
+      console.log('publications fetched success');
     })
+  }
 
     // const querySnapshot = await getDocs(collection(db, "users"));
     // a.forEach((doc) => {
@@ -66,7 +71,7 @@ const Publications = () => {
     // console.log(querySnapshot);
     // setEmail(querySnapshot) ; 
     // setMila(true);
-  }
+  // }
 
 
   const getData = async () => {
@@ -75,7 +80,7 @@ const Publications = () => {
       const email = await AsyncStorage.getItem('email');
       const password = await AsyncStorage.getItem('password');
       // if (email && password && uid) {
-        console.log("getdata ke andar aa gaye hain");
+        // console.log("getdata ke andar aa gaye hain");
           getPublications(email , password , uid); 
       // }
     } catch (e) {
@@ -83,22 +88,34 @@ const Publications = () => {
       console.log("error");
     }
   };
-
+  // const handleClick = (item) => {
+  //   navigation.navigate('BookRenderingPage.js')
+  // }
   useEffect(() => {
-    console.log("useeffect ke andar aa gaye hain")
+    // console.log("useeffect ke andar aa gaye hain")
     getData() ; 
   }, [])
+
+  const handleClick = (item) => {
+      console.log("button clicked"); 
+      Alert.alert(" Clicked " , item);
+      navigation.navigate("BookRenderingPage" , {book : item})
+  }
   return (
     <View className="mt-4">
       <Text className="ml-4">User : {userData.name}</Text>
       <Text className="ml-4">Email : {userData.emailId}</Text>
       <View className="mt-4 border-2 max-w-1/2 m-auto flex flex-col space-y-3">
-
-    
       {
         allottedBooks.map((item) => {
           return (<>
-           <Button title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+           {/* <Button onClick = {(item)=>handleClick} title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" /> */}
+           <TouchableOpacity onPress={()=>handleClick(item)}> 
+              <View> 
+                <Text>{item}</Text> 
+              </View> 
+            </TouchableOpacity>
+           {/* <Button onClick = {()=>navigation.navigate("BookRenderingPage" , {book : item})} title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" /> */}
           </>)
         })
       }
