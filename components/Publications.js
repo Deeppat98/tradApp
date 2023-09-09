@@ -8,8 +8,9 @@ const Publications = () => {
   const app = initializeFirebase();
   const db = getFirestore(); 
   
-  const [email , setEmail] = useState([]) ; 
-  const [mila , setMila] = useState(false);
+  // const [email , setEmail] = useState([]) ; 
+  const [allottedBooks , setAllottedBooks] = useState([]);
+  const [userData , setUserData] = useState([]) ; 
 //   var query = db.collection("posts").where("name", "==", "Foo");
 // var querySnapshot = await query.get();
 // Now querySnapshot will be an array of documents that matched your query.
@@ -23,7 +24,12 @@ const Publications = () => {
       snapshot.docs.forEach((doc) => {
         users.push({...doc.data()  , id : doc.id})
       })
-      console.log(users) ; 
+      setUserData(users[0]);
+      setAllottedBooks(users[0].allotedTexts); 
+      // console.log(allottedBooks) ; 
+      // console.log(typeof(users[0])) ; 
+      console.log(users[0]) ; 
+      console.log(users[0].allotedTexts)  ; 
     })
 
     // const querySnapshot = await getDocs(collection(db, "users"));
@@ -59,7 +65,7 @@ const Publications = () => {
     // });
     // console.log(querySnapshot);
     // setEmail(querySnapshot) ; 
-    setMila(true);
+    // setMila(true);
   }
 
 
@@ -83,14 +89,23 @@ const Publications = () => {
     getData() ; 
   }, [])
   return (
-    <View>
-      <Text>Publications helo sdfgsd sda</Text>
-      <Button title = "Button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-    </Button>
-      <Button title = "Button" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-    </Button>
+    <View className="mt-4">
+      <Text className="ml-4">User : {userData.name}</Text>
+      <Text className="ml-4">Email : {userData.emailId}</Text>
+      <View className="mt-4 border-2 max-w-1/2 m-auto flex flex-col space-y-3">
 
-    <Text>{mila}</Text>
+    
+      {
+        allottedBooks.map((item) => {
+          return (<>
+           <Button title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" />
+          </>)
+        })
+      }
+
+      </View>
+
+    {/* <Text>{userData.email}</Text> */}
     </View>
   )
 }
