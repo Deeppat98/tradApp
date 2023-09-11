@@ -13,6 +13,7 @@ import { useFonts } from 'expo-font';
 import Publications from './components/Publications';
 import Font from './components/Font'
 import BookRenderingPage from './components/BookRenderingPage'
+import TranslationPage from './components/TranslationPage'
 
 
 const Stack = createNativeStackNavigator();
@@ -20,14 +21,25 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-
+  const universalOptions = {
+    // title: 'My Publications', 
+    headerStyle: {
+      backgroundColor: '#c45c5b',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  }
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login}  />
-        <Stack.Screen name="Publications" component={Publications} options={{
-          title: 'My Publications', 
+        <Stack.Screen name="Login" component={Login} options={universalOptions} />
+        <Stack.Screen name="Publications" component={Publications} options={universalOptions} />
+        <Stack.Screen name="BookRenderingPage" component={BookRenderingPage}  options={
+          ({ route, navigation }) => ({
+          title: route.params.book.toUpperCase(),
           headerStyle: {
             backgroundColor: '#c45c5b',
           },
@@ -35,8 +47,10 @@ export default function App() {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-        }} />
-        <Stack.Screen name="BookRenderingPage" component={BookRenderingPage} />
+          })
+          
+        } />
+        <Stack.Screen name="TranslationPage" component={TranslationPage} />
         <Stack.Screen name="Font" component={Font} />
         <Stack.Screen name="Content" component={Content} />
         <Stack.Screen name="Home" component={Home} />

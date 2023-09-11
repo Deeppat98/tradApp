@@ -1,4 +1,4 @@
-import { View, Text  , Button , Alert,TouchableOpacity } from 'react-native'
+import { View, Text  , Button ,StyleSheet, Alert,TouchableOpacity } from 'react-native'
 import React, { useEffect , useState } from 'react'
 import initializeFirebase from '../config/firebase.js'
 import { getFirestore ,onSnapshot , doc, getDoc,  getDocs } from "firebase/firestore";
@@ -98,21 +98,23 @@ const Publications = ({navigation}) => {
 
   const handleClick = (item) => {
       console.log("button clicked"); 
-      Alert.alert(" Clicked " , item);
+      // Alert.alert("  " , item);
       navigation.navigate("BookRenderingPage" , {book : item})
   }
   return (
-    <View className="mt-4">
-      <Text className="ml-4">User : {userData.name}</Text>
-      <Text className="ml-4">Email : {userData.emailId}</Text>
-      <View className="mt-4 border-2 max-w-1/2 m-auto flex flex-col space-y-3">
+    <View className="mt-0 bg-gray-200 h-screen">
+      <Text className="ml-4 mt-2 text-xl">Welcome {userData.name}, </Text>
+      {/* <Text className="ml-4 text-xl">Email : {userData.emailId}</Text> */}
+      {/* <br /> */}
+      <Text className="ml-4 text-lg mt-4">Good To See You Here Again !!</Text>
+      <View className="mt-5 ml-4 flex flex-col space-y-3">
       {
         allottedBooks.map((item) => {
           return (<>
            {/* <Button onClick = {(item)=>handleClick} title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" /> */}
-           <TouchableOpacity onPress={()=>handleClick(item)}> 
+           <TouchableOpacity className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item)}> 
               <View> 
-                <Text>{item}</Text> 
+                <Text className="text-lg text-white font-bold underline">{item.toUpperCase()}</Text> 
               </View> 
             </TouchableOpacity>
            {/* <Button onClick = {()=>navigation.navigate("BookRenderingPage" , {book : item})} title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" /> */}
@@ -128,3 +130,9 @@ const Publications = ({navigation}) => {
 }
 
 export default Publications
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor : "#c45c5b",
+  }
+});
