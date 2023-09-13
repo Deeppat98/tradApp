@@ -14,6 +14,7 @@ import Publications from './components/Publications';
 import Font from './components/Font'
 import BookRenderingPage from './components/BookRenderingPage'
 import TranslationPage from './components/TranslationPage'
+import Job from './components/Job'
 
 
 const Stack = createNativeStackNavigator();
@@ -35,7 +36,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} options={universalOptions} />
+        {/* <Stack.Screen name="Login" component={Login} options={universalOptions} /> */}
         <Stack.Screen name="Publications" component={Publications} options={universalOptions} />
         <Stack.Screen name="BookRenderingPage" component={BookRenderingPage}  options={
           ({ route, navigation }) => ({

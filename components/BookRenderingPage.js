@@ -21,7 +21,7 @@ const BookRenderingPage = ({navigation}) => {
     const handleClick = (bookName , bookContent) => {
       console.log("button clicked"); 
       // Alert.alert("  " , item);
-      navigation.navigate("TranslationPage" , {bookname : bookName , bookcontent : bookContent})
+      navigation.navigate("TranslationPage" , {bookname : bookName , bookcontent : bookContent , myJob :  jobForThisBook})
   }
 
     const getBookDataFunction = (name) => {
@@ -43,6 +43,7 @@ const BookRenderingPage = ({navigation}) => {
   return (
     <ScrollView>
       <View className="mt-4">
+        
         <Text className="text-lg ml-4">Read The Paragraph Carefully :</Text>
       </View>
       <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">

@@ -13,6 +13,7 @@ const Publications = ({navigation}) => {
   // const [email , setEmail] = useState([]) ; 
   const [allottedBooks , setAllottedBooks] = useState([]);
   const [userData , setUserData] = useState([]) ; 
+  const [jobs , setJobs] = useState({})
 //   var query = db.collection("posts").where("name", "==", "Foo");
 // var querySnapshot = await query.get();
 // Now querySnapshot will be an array of documents that matched your query.
@@ -27,7 +28,13 @@ const Publications = ({navigation}) => {
         users.push({...doc.data()  , id : doc.id})
       })
       setUserData(users[0]);
-      setAllottedBooks(users[0].allotedTexts); 
+      // setAllottedBooks(users[0].allotedTexts); 
+      console.log(users[0].jobs); 
+      const ab = users[0].jobs ; 
+      setJobs(ab)
+      // console.log("yaha" , Object.keys(ab)) 
+      setAllottedBooks(Object.keys(ab))
+      console.log("jobs" , jobs);
       // console.log(allottedBooks) ; 
       // console.log(typeof(users[0])) ; 
       // console.log(userData);
@@ -98,8 +105,9 @@ const Publications = ({navigation}) => {
 
   const handleClick = (item) => {
       console.log("button clicked"); 
+
       // Alert.alert("  " , item);
-      navigation.navigate("BookRenderingPage" , {book : item})
+      navigation.navigate("BookRenderingPage" , {book : item} , {jobForThisBook : ab.item})
   }
   return (
     <View className="mt-0 bg-gray-200 h-screen">
@@ -113,8 +121,9 @@ const Publications = ({navigation}) => {
           return (<>
            {/* <Button onClick = {(item)=>handleClick} title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" /> */}
            <TouchableOpacity className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item)}> 
-              <View> 
+              <View className="flex flex-row justify-between"> 
                 <Text className="text-lg text-white font-bold underline">{item.toUpperCase()}</Text> 
+                <Text className="text-lg text-white font-bold underline">{jobs[item].toUpperCase()}</Text> 
               </View> 
             </TouchableOpacity>
            {/* <Button onClick = {()=>navigation.navigate("BookRenderingPage" , {book : item})} title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" /> */}
