@@ -15,7 +15,7 @@ import Font from './components/Font'
 import BookRenderingPage from './components/BookRenderingPage'
 import TranslationPage from './components/TranslationPage'
 import Job from './components/Job'
-
+import Logout from './components/Logout'
 
 const Stack = createNativeStackNavigator();
 
@@ -51,7 +51,7 @@ export default function App() {
           })
           
         } />
-        <Stack.Screen name="TranslationPage" component={TranslationPage} />
+        <Stack.Screen name="TranslationPage" component={TranslationPage} options={universalOptions} />
         <Stack.Screen name="Font" component={Font} />
         <Stack.Screen name="Content" component={Content} />
         <Stack.Screen name="Home" component={Home} />

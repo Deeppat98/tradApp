@@ -21,7 +21,7 @@ const BookRenderingPage = ({navigation}) => {
     const handleClick = (bookName , bookContent) => {
       console.log("button clicked"); 
       // Alert.alert("  " , item);
-      navigation.navigate("TranslationPage" , {bookname : bookName , bookcontent : bookContent , myJob :  jobForThisBook})
+      navigation.navigate("TranslationPage" , {bookname : bookName , bookcontent : bookContent})
   }
 
     const getBookDataFunction = (name) => {

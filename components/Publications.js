@@ -107,7 +107,7 @@ const Publications = ({navigation}) => {
       console.log("button clicked"); 
 
       // Alert.alert("  " , item);
-      navigation.navigate("BookRenderingPage" , {book : item} , {jobForThisBook : ab.item})
+      navigation.navigate("BookRenderingPage" , {book : item} )
   }
   return (
     <View className="mt-0 bg-gray-200 h-screen">
@@ -117,23 +117,20 @@ const Publications = ({navigation}) => {
       <Text className="ml-4 text-lg mt-4">Good To See You Here Again !!</Text>
       <View className="mt-5 ml-4 flex flex-col space-y-3">
       {
-        allottedBooks.map((item) => {
+        allottedBooks.map((item , index) => {
           return (<>
-           {/* <Button onClick = {(item)=>handleClick} title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" /> */}
-           <TouchableOpacity className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item)}> 
-              <View className="flex flex-row justify-between"> 
+           <TouchableOpacity key={index} className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item)}> 
+              <View className="flex flex-row justify-between" key={index} > 
                 <Text className="text-lg text-white font-bold underline">{item.toUpperCase()}</Text> 
                 <Text className="text-lg text-white font-bold underline">{jobs[item].toUpperCase()}</Text> 
               </View> 
             </TouchableOpacity>
-           {/* <Button onClick = {()=>navigation.navigate("BookRenderingPage" , {book : item})} title = {item} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" /> */}
           </>)
         })
       }
 
       </View>
 
-    {/* <Text>{userData.email}</Text> */}
     </View>
   )
 }
