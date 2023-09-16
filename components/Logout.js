@@ -8,11 +8,9 @@ const Logout = () => {
             await AsyncStorage.removeItem('email');
             await AsyncStorage.removeItem('password');
             await AsyncStorage.removeItem('uid');
-            // return true;
         }
         catch(exception) {
             console.log("error occurred while removing async storage")
-            // return false;
         }
     }
   return (

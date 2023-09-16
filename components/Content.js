@@ -4,7 +4,6 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection ,doc, getDoc,  getDocs } from "firebase/firestore";
 import initializeFirebase from '../config/firebase.js'
 import { SafeAreaView } from "react-native";
-// import BoxDesign from './BoxDesign'
 import loadFonts from '../config/loadFonts.js';
 
 const Content = () => {

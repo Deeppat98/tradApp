@@ -20,7 +20,6 @@ const BookRenderingPage = ({navigation}) => {
 
     const handleClick = (bookName , bookContent) => {
       console.log("button clicked"); 
-      // Alert.alert("  " , item);
       navigation.navigate("TranslationPage" , {bookname : bookName , bookcontent : bookContent})
   }
 
@@ -49,9 +48,7 @@ const BookRenderingPage = ({navigation}) => {
       <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
         <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
       </View>
-      {/* <View>
-        <Text className="text-xl">{bookContent.french}</Text>
-      </View> */}
+
        <TouchableOpacity className="mt-24 ml-12 p-3 mr-12 rounded-2xl" style={styles.container} onPress={()=>handleClick(bookName , bookContent)}> 
               <View> 
                 <Text className="m-auto text-lg text-white font-bold">BEGIN TRANSLATION</Text> 

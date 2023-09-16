@@ -16,17 +16,13 @@ const TranslationPage = () => {
     const handleClick = () => {
       Alert.alert("Woah ! You just translated this paragraph !") ; 
     }
-    // console.log(b) ; 
   return (
     <ScrollView>
       <Text className="text-lg mt-3 mx-auto">Translate the previous read text in french !</Text>
-      {/* <Text>{bookContent.english}</Text> */}
       <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
         <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
       </View>
-      {/* <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
-        <Text className="text-xl flex justify-center align-middle">{bookContent.french}</Text>
-      </View> */}
+
       <View className="h-fit w-3/4 mt-8 text-lg mx-auto flex justify-center align-middle bg-white">
       <TextInput
         editable

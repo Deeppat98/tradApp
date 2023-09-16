@@ -37,8 +37,6 @@ const Publications = ({navigation}) => {
       console.log("jobs" , jobs);
       // console.log(allottedBooks) ; 
       // console.log(typeof(users[0])) ; 
-      // console.log(userData);
-      // console.log(users[0]) ; 
       // console.log(users[0].allotedTexts)  ; 
       console.log('publications fetched success');
     })
