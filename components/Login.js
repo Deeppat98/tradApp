@@ -3,7 +3,6 @@ import { React, useEffect, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import initializeFirebase from '../config/firebase.js'
-// import { useFonts } from 'expo-font';
 import loadFonts from '../config/loadFonts.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
@@ -16,7 +15,6 @@ export default function Login({navigation}){
     MontserratBold : require("../assets/fonts/Montserrat-Bold.ttf")
   })
   if(!loaded) return null ;
-  // loadFonts() ; 
   
  
  

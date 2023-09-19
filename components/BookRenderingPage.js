@@ -36,8 +36,7 @@ const BookRenderingPage = ({navigation}) => {
           // console.log(book); //here we are getting the complete book collection 
         })
     }
-    //This page is for reading the paragraph carefully !! 
-    //next page from this would be to translate the paragraph 
+
 
   return (
     <ScrollView>

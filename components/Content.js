@@ -38,7 +38,6 @@ const Content = () => {
         This is a Box
       </Box> */}
 
-    {/* <BoxDesign />  */}
       
     {
             data.map((x , index) => {
