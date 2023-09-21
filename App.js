@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from "./components/Home"
 import EachItem from './components/EachItem'
-// import  Item from './components/Item'
 import Items from './components/Items'
 import Login from './components/Login'
 import Content from './components/Content'

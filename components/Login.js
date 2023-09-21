@@ -16,14 +16,6 @@ export default function Login({navigation}){
   })
   if(!loaded) return null ;
   
- 
- 
-  
-  // const [loaded] = useFonts({
-  //   MontserratSemiBold : require("../assets/fonts/Montserrat-SemiBold.ttf"),
-  //   MontserratBold : require("../assets/fonts/Montserrat-Bold.ttf")
-  // })
-  // if(!loaded) return null ; 
   const storeData = async (uid) => {
     try {
       await AsyncStorage.setItem('email', username);
