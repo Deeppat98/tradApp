@@ -13,7 +13,6 @@ import Publications from './components/Publications';
 import Font from './components/Font'
 import BookRenderingPage from './components/BookRenderingPage'
 import TranslationPage from './components/TranslationPage'
-import Job from './components/Job'
 import Logout from './components/Logout'
 
 const Stack = createNativeStackNavigator();

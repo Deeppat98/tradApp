@@ -14,12 +14,11 @@ const Publications = ({navigation}) => {
   const [allottedBooks , setAllottedBooks] = useState([]);
   const [userData , setUserData] = useState([]) ; 
   const [jobs , setJobs] = useState({})
-//   var query = db.collection("posts").where("name", "==", "Foo");
-// var querySnapshot = await query.get();
-// Now querySnapshot will be an array of documents that matched your query.
-  // const id = "P5Pi8RyxvnsPm8s7BjRO" ; 
+
+  const setName = async (name) => {
+    await AsyncStorage.setItem('name' , name)
+  }
   const getPublications = async (email , password , uid) => {
-    // import { collection, getDocs } from "firebase/firestore";
     const userRef = collection(db , 'users') ;
     const q = query(userRef , where("emailId" , "==" , email))  
     onSnapshot(q , (snapshot) => {
@@ -28,55 +27,15 @@ const Publications = ({navigation}) => {
         users.push({...doc.data()  , id : doc.id})
       })
       setUserData(users[0]);
-      // setAllottedBooks(users[0].allotedTexts); 
       console.log(users[0].jobs); 
       const ab = users[0].jobs ; 
+      setName(users[0].name)
       setJobs(ab)
-      // console.log("yaha" , Object.keys(ab)) 
       setAllottedBooks(Object.keys(ab))
-      console.log("jobs" , jobs);
-      // console.log(allottedBooks) ; 
-      // console.log(typeof(users[0])) ; 
-      // console.log(users[0].allotedTexts)  ; 
+      console.log("jobs" , jobs); 
       console.log('publications fetched success');
     })
   }
-
-    // const querySnapshot = await getDocs(collection(db, "users"));
-    // a.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   console.log(doc.id, " => ", doc.data());
-    // });
-    // const docRef = doc(db, "users",  id);
-    // const docSnap = await getDoc(docRef);
-    // if (docSnap.exists()) {
-    //   console.log("Document data:", docSnap.data());
-    // } else {
-    //   // docSnap.data() will be undefined in this case
-    //   console.log("No such document!");
-    // }
-    // const q = query(collection(db, "users"), where("emailId", "==", email));
-    // console.log(q.size);
-    // console.log(q);
-    // Create a reference to the cities collection
-    /* For Reference 
-          import { collection, query, where } from "firebase/firestore";
-          const citiesRef = collection(db, "cities");
-          // Create a query against the collection.
-          const q = query(citiesRef, where("state", "==", "CA"));   
-    */  
-    // const usersRef = collection(db, "users");
-    // const q = query(usersRef, where("emailId", "==", email));   
-    // // console.log(q);
-    // const querySnapshot = await getDocs(q);
-    // querySnapshot.forEach((doc) => {
-    //   // doc.data() is never undefined for query doc snapshots
-    //   console.log(doc.id, " => ", doc.data().uid);
-    // });
-    // console.log(querySnapshot);
-    // setEmail(querySnapshot) ; 
-    // setMila(true);
-  // }
 
 
   const getData = async () => {
@@ -93,19 +52,14 @@ const Publications = ({navigation}) => {
       console.log("error");
     }
   };
-  // const handleClick = (item) => {
-  //   navigation.navigate('BookRenderingPage.js')
-  // }
+
   useEffect(() => {
-    // console.log("useeffect ke andar aa gaye hain")
     getData() ; 
   }, [])
 
-  const handleClick = (item) => {
+  const handleClick = (item , workOnBook) => {
       console.log("button clicked"); 
-
-      // Alert.alert("  " , item);
-      navigation.navigate("BookRenderingPage" , {book : item} )
+      navigation.navigate("BookRenderingPage" , {book : item , workOnBook : workOnBook})
   }
   return (
     <View className="mt-0 bg-gray-200 h-screen">
@@ -117,7 +71,7 @@ const Publications = ({navigation}) => {
       {
         allottedBooks.map((item , index) => {
           return (<>
-           <TouchableOpacity key={index} className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item)}> 
+           <TouchableOpacity key={index} className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item , jobs[item])}> 
               <View className="flex flex-row justify-between" key={index} > 
                 <Text className="text-lg text-white font-bold underline">{item.toUpperCase()}</Text> 
                 <Text className="text-lg text-white font-bold underline">{jobs[item].toUpperCase()}</Text> 
