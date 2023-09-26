@@ -34,7 +34,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen name="Login" component={Login} options={universalOptions} /> */}
+        <Stack.Screen name="Login" component={Login} options={universalOptions} />
         <Stack.Screen name="Publications" component={Publications} options={universalOptions} />
         <Stack.Screen name="BookRenderingPage" component={BookRenderingPage}  options={
           ({ route, navigation }) => ({
@@ -47,7 +47,6 @@ export default function App() {
             fontWeight: 'bold',
           },
           })
-          
         } />
         <Stack.Screen name="TranslationPage" component={TranslationPage} options={universalOptions} />
         <Stack.Screen name="Font" component={Font} />

@@ -1,11 +1,11 @@
 import { View, Text, TextInput,ScrollView,StyleSheet ,TouchableOpacity , Alert} from 'react-native'
 import React, {useEffect , useState} from 'react'
 import { useRoute } from "@react-navigation/native"
-import { getFirestore ,onSnapshot ,collection, doc, setDoc } from "firebase/firestore"; 
+import { getFirestore ,onSnapshot ,collection, doc, setDoc, Timestamp } from "firebase/firestore"; 
 import initializeFirebase from '../config/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const TranslationPage = () => {
+const TranslationPage = ({navigation}) => {
     initializeFirebase() ; 
     const db = getFirestore() ;
 
@@ -21,16 +21,20 @@ const TranslationPage = () => {
         setText(bookcontent.french);
     } , [])
     
+    console.log(bookContent);
     const handleClick =async () => {
       const userName = await AsyncStorage.getItem('name');
-      const user = await AsyncStorage.getItem('')
-      const citiesRef = collection(db, bookName );
-      await setDoc(doc(citiesRef), {
+      // const user = await AsyncStorage.getItem('')
+      const citiesRef = collection(db, bookName);
+      const date = new Date() ; 
+      await setDoc(doc(citiesRef, bookContent.id), {
             translatedText : text , 
             translatedBy : userName ,
-            translatedAt : Date.now()
-         }, where('chapter'));
-      Alert.alert("Woah ! You just translated this paragraph !") ; 
+            translatedAt : date,
+            translationStatus : "translation_completed"
+         },{ merge: true });
+      Alert.alert("Hurray ! You just translated this paragraph !\n\n" ,  "Go Ahead with next one") ; 
+      navigation.navigate("Publications")
     }
   return (
     <ScrollView>

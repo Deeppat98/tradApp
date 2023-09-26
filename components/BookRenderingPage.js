@@ -11,6 +11,8 @@ const BookRenderingPage = ({ navigation }) => {
   const db = getFirestore();
   const [bookName, setBookName] = useState("");
   const [bookContent, setBookContent] = useState([]);
+  const [chapter, setChapter] = useState("");
+  const [para, setPara] = useState("");
 
   useEffect(() => {
     const name = route.params?.book;
@@ -22,7 +24,7 @@ const BookRenderingPage = ({ navigation }) => {
 
   const handleClick = (bookName, bookContent) => {
     console.log("button clicked");
-    navigation.navigate("TranslationPage", { bookname: bookName, bookcontent: bookContent })
+    navigation.navigate("TranslationPage", { bookname: bookName, bookcontent: bookContent , chapter : chapter , para : para })
   }
 
   const getBookDataFunction = (name) => {
@@ -37,6 +39,7 @@ const BookRenderingPage = ({ navigation }) => {
         book.push({ ...doc.data(), id: doc.id })
       })
       setBookContent(book[0]);
+      
       console.log(book); //here we are getting the complete book collection 
     })
   }
