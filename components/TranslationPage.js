@@ -13,12 +13,25 @@ const TranslationPage = ({navigation}) => {
     const [bookContent , setBookContent] = useState([]) ; 
     const [text, setText] = useState("");
     const [bookName , setBookName] = useState([]) ; 
+    const [sentencesEnglish , setSentencesEnglish] = useState([]);
+    const [sentencesFrench , setSentencesFrench] = useState([]);
+    const [totalSentence , setTotalSentence] = useState(0);
     useEffect(() => {
+      //pehle find kar ki last translated sentence kaun sa tha uske baad 
+      //yaha par wo render kara 
         const bookname = route.params?.bookname ; 
         const bookcontent = route.params?.bookcontent ; 
         setBookContent(bookcontent);
         setBookName(bookname)
         setText(bookcontent.french);
+        const bookcontentEnglishSentences = bookcontent.english.split(".")
+        const bookcontentFrenchSentences = bookcontent.french.split(".")
+        console.log(bookcontentEnglishSentences)
+        console.log(bookcontentFrenchSentences)
+        
+        setSentencesEnglish(bookcontentEnglishSentences)
+        setTotalSentence(bookcontentEnglishSentences.length)
+        setSentencesFrench(bookcontentFrenchSentences)
     } , [])
     
     console.log(bookContent);

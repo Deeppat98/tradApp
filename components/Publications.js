@@ -1,4 +1,4 @@
-import { View, Text  , Button ,StyleSheet, Alert,TouchableOpacity } from 'react-native'
+import { StatusBar , View, Text  , Button ,StyleSheet, Alert,TouchableOpacity } from 'react-native'
 import React, { useEffect , useState } from 'react'
 import initializeFirebase from '../config/firebase.js'
 import { getFirestore ,onSnapshot , doc, getDoc,  getDocs } from "firebase/firestore";
@@ -59,10 +59,13 @@ const Publications = ({navigation}) => {
 
   const handleClick = (item , workOnBook) => {
       console.log("button clicked"); 
-      navigation.navigate("BookRenderingPage" , {book : item , workOnBook : workOnBook})
+      navigation.navigate("BookRenderingPage" , {book : item , job : workOnBook})
+      Alert.alert("work" , workOnBook)
   }
   return (
     <View className="mt-0 bg-gray-200 h-screen">
+
+      <StatusBar backgroundColor="black" barStyle="default" />
       <Text className="ml-4 mt-2 text-xl">Welcome {userData.name}, </Text>
       {/* <Text className="ml-4 text-xl">Email : {userData.emailId}</Text> */}
       {/* <br /> */}

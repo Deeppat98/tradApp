@@ -1,4 +1,4 @@
-import { View, Alert, Text, Image, TextInput, ScrollView, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import { StatusBar, Platform , View, Alert, Text, Image, TextInput, ScrollView, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { React, useEffect, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -52,6 +52,8 @@ export default function Login({navigation}){
 
   return (
     <ScrollView>
+    
+      <StatusBar backgroundColor="black" barStyle="default" />
 
       <View style={{ display: "flex", justifyContent: 'center', alignItems: "center", marginTop: 80 }}>
         <Image source={require('../images/baps_logo.png')} style={{ width: 100, height: 130 }} />
@@ -60,7 +62,7 @@ export default function Login({navigation}){
       <View>
         <Text style={{ color: "#c45c5b", fontSize: 30,  marginTop: 30, textAlign: "center", fontFamily : "MontserratBold"}}>BAPS Translation</Text>
       </View>
-      <KeyboardAvoidingView>
+      
 
 
         <View style={{ width: 100, display: "flex", justifyContent: 'center', alignItems: "left", marginTop: 100 }}>
@@ -90,13 +92,14 @@ export default function Login({navigation}){
           </TouchableOpacity>
         </View>
 
-      </KeyboardAvoidingView>
-
+     
 
 
 
       {/* </View> */}
-    </ScrollView>
+    {/* </KeyboardAvoidingView> */}
+      </ScrollView>
+
   )
 }
 
