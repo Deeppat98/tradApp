@@ -35,18 +35,11 @@ const BookRenderingPage = ({ navigation }) => {
   const handleClick = (bookName, bookContent) => {
     const sentence = bookContent.english.split(".");
     setSentences(sentence);
-    // console.log("sentence" , sentence.length , sentence);  //sebtect is an array of strings 
-
-    // console.log("button clicked");
-    navigation.navigate("TranslationPage", { sentences : sentence , bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
-
-    // navigation.navigate("sentencePage")
+    navigation.navigate("SentencePage", {bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
   }
 
   const getBookDataFunctionForTranslation = (name) => {
     const userRef = collection(db, name);
-    // const q = query(userRef , where("emailId" , "==" , email) , orderBy("chapter" ) , orderBy('para')) ;
-    // where('translationStatus' , '!==' , 'null') , 
     const q = query(userRef, where("translationStatus", "==", "null"), orderBy("chapter"), orderBy('para'));
     onSnapshot(q, (snapshot) => {
       let book = [];
@@ -55,7 +48,6 @@ const BookRenderingPage = ({ navigation }) => {
       })
       setBookContent(book[0]);
       setBook(book);
-      // console.log(book); //here we are getting the complete book collection 
     })
   }
 

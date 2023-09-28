@@ -51,7 +51,7 @@ export default function App() {
           },
           })
         } />
-        <Stack.Screen name="TranslationPage" component={TranslationPage} options={
+        {/* <Stack.Screen name="TranslationPage" component={TranslationPage} options={
           ({ route, navigation }) => ({
           title: route.params.bookname.toUpperCase(),
           headerStyle: {
@@ -62,7 +62,7 @@ export default function App() {
             fontWeight: 'bold',
           },
           })
-        } />
+        } /> */}
         <Stack.Screen name="SentencePage" component={SentencePage} options={
           ({ route, navigation }) => ({
           // title: route.params.bookname.toUpperCase(),

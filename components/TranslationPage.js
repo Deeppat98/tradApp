@@ -1,4 +1,4 @@
-import { View, Text, TextInput,ScrollView,StyleSheet ,TouchableOpacity , Alert} from 'react-native'
+import {  View, Text, TextInput,ScrollView,StyleSheet ,TouchableOpacity , Alert} from 'react-native'
 import React, {useEffect , useState} from 'react'
 import { useRoute } from "@react-navigation/native"
 import { getFirestore ,onSnapshot ,collection, doc, setDoc, Timestamp } from "firebase/firestore"; 
@@ -66,9 +66,6 @@ const TranslationPage = ({navigation}) => {
         style={{padding: 10 , textAlign: 'justify'}}
       />
       </View>
-      
-      {/* <Text>{bookContent.french}</Text> */}
-      {/* <textarea class="caret-[#50d71e]"></textarea> */}
       
         <TouchableOpacity className="m-auto mt-4 ml-24 p-5 mr-24 rounded-2xl mb-12" style={styles.container} onPress={handleClick}> 
               <View className="flex flex-row justify-between m-auto"> 

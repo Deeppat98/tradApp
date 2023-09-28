@@ -75,7 +75,7 @@ const Publications = ({navigation}) => {
         allottedBooks.map((item , index) => {
           return (<>
            <TouchableOpacity key={index} className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item , jobs[item])}> 
-              <View className="flex flex-row justify-between" key={index} > 
+              <View className="flex flex-row justify-between"  > 
                 <Text className="text-lg text-white font-bold underline">{item.toUpperCase()}</Text> 
                 <Text className="text-lg text-white font-bold underline">{jobs[item].toUpperCase()}</Text> 
               </View> 
