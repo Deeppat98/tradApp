@@ -14,8 +14,9 @@ const SentencePage = ({ navigation }) => {
   const [ct, setct] = useState(0);
 
   const route = useRoute();
-  const {bookname, bookcontent} = route.params
+  const {bookname, bookcontent, job} = route.params
   // console.log("bookcontent initial" , bookcontent) ; 
+  const [jobs , setJobs] = useState(job) ; 
   const [bookName, setBookName] = useState(bookname)
   const [bookContent, setBookContent] = useState(bookcontent)
   const [sentenceTillTranslated, setSentenceTillTranslated] = useState("");
@@ -102,7 +103,7 @@ const SentencePage = ({ navigation }) => {
           // console.log()
           const total = (bookContent.totalSentences) ; 
           if(lastSentence === total-1){
-            Alert.alert("Paragraph Finished" , 'Sentence Translated Successfully !' , [
+            Alert.alert("Paragraph Finished" , 'Paragraph Translated Successfully !' , [
               {
                 text : 'Go To Pubilcations' , onPress : () => {
                   navigation.navigate("Publications") ; 
@@ -111,7 +112,7 @@ const SentencePage = ({ navigation }) => {
               } , 
               {
                 text : 'Next Paragraph' , onPress : () => {
-                  navigation.navigate("Publications") ; 
+                  navigation.navigate("Book Rendering Page" , {book : bookName , job : jobs}) ; 
                 }
               }
             ]) ; 

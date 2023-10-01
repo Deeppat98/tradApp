@@ -61,7 +61,7 @@ const Publications = ({navigation}) => {
     
       console.log("button clicked"); 
       navigation.navigate("BookRenderingPage" , {book : item , job : workOnBook})
-      Alert.alert("work" , workOnBook)
+      // Alert.alert("work" , workOnBook)
   }
   return (
     <View className="mt-0 bg-gray-200 h-screen">
@@ -75,7 +75,7 @@ const Publications = ({navigation}) => {
       {
         allottedBooks.map((item , index) => {
           return (<>
-           <TouchableOpacity key={item.id} className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item , jobs[item])}> 
+           <TouchableOpacity key={index} className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={()=>handleClick(item , jobs[item])}> 
               <View className="flex flex-row justify-between"  > 
                 <Text className="text-lg text-white font-bold underline">{item.toUpperCase()}</Text> 
                 <Text className="text-lg text-white font-bold underline">{jobs[item].toUpperCase()}</Text> 

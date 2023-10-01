@@ -82,7 +82,7 @@ const BookRenderingPage = ({ navigation }) => {
             ?
             <>
             <View className="mt-10 ml-10 mr-10 text-2xl font-semibold">
-              <Text>Nothing Left For Translation !!</Text>
+              <Text className="text-xl m-auto font-semibold">Translation Completed !</Text>
             </View>
             </>
             :
