@@ -1,4 +1,4 @@
-import {StatusBar, StyleSheet , TouchableOpacity , Text ,Button , Alert } from 'react-native'
+import { StatusBar, StyleSheet, TouchableOpacity, Text, Button, Alert } from 'react-native'
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -16,62 +16,30 @@ import TranslationPage from './components/TranslationPage'
 import Logout from './components/Logout'
 import SentencePage from './components/SentencePage'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { useNavigation } from '@react-navigation/native';
+// import { navigationRef, isReadyRef } from './RootNavigation.js';
 
 const Stack = createNativeStackNavigator();
 
 
-export default function App() {
+export default function App({navigation}) {
+  // React.useEffect(() => {
+  //   return () => {
+  //     isReadyRef.current = false
+  //   };
+  // }, []);
+  // const navigation = useNavigation();
 
-  const universalOptions = {
-    // title: 'My Publications', 
-    headerStyle: {
-      backgroundColor: '#c45c5b',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-    headerRight: () => (
-      <TouchableOpacity
-        // style={styles.logoutButton}
-        className="mr-4 underline"
-        onPress={() => Alert.alert('Confirm Logout ?' , '', [
-          {
-            text : 'Cancel', 
-  
-          } , 
-          {
-            text : 'Confirm' , onPress : async () => {
-              await AsyncStorage.removeItem('email');
-              await AsyncStorage.removeItem('password') ; 
-              await AsyncStorage.removeItem('uid');
-              await AsyncStorage.removeItem('name');
-              navigation.navigate("Login") ; 
-            }
-          }
-        ])} >
-      
-        <Text className="text-lg font-bold text-white">Logout</Text>
-        
-        
-      </TouchableOpacity>
-    ) ,
-  }
-  const { headerRight, ...rest } = universalOptions;
-  const { title , ...restAll} = universalOptions; 
-  // restAll.title = 
-  // const logoutFunction = 
 
   return (
+    // <NavigationContainer ref={navigationRef}
+    //   onReady={() => {
+    //     isReadyRef.current = true;
+    //   }}>
     <NavigationContainer>
       <Stack.Navigator>
-        
-        <Stack.Screen name="Login" component={Login} options={rest} />
-        <Stack.Screen name="Publications" component={Publications} options={universalOptions} />
-        <Stack.Screen name="BookRenderingPage" component={BookRenderingPage}  options={
-          ({ route, navigation }) => ({
-          title: route.params.book.toUpperCase(),
+
+        <Stack.Screen name="Login" component={Login} options={{
           headerStyle: {
             backgroundColor: '#c45c5b',
           },
@@ -82,28 +50,109 @@ export default function App() {
           headerRight: () => (
             <TouchableOpacity
               // style={styles.logoutButton}
-              className="mr-4"
-              onPress={() => Alert.alert('Confirm Logout ?' , '', [
+              className="mr-4 underline hidden"
+              onPress={() => Alert.alert('Confirm Logout ?', '', [
                 {
-                  text : 'Cancel', 
-        
-                } , 
+                  text: 'Cancel',
+
+                },
                 {
-                  text : 'Confirm' , onPress : async () => {
+                  text: 'Confirm', onPress: async () => {
                     await AsyncStorage.removeItem('email');
-                    await AsyncStorage.removeItem('password') ; 
+                    await AsyncStorage.removeItem('password');
                     await AsyncStorage.removeItem('uid');
                     await AsyncStorage.removeItem('name');
-                    navigation.navigate("Login") ; 
+                    navigation.navigate("Login");
+                    // navigation.reset({
+                    //   index: 0,
+                    //   routes: [{ name: 'Login' }],
+                    // });
+
                   }
                 }
               ])} >
-            
-              <Text className="text-lg font-bold text-white underline">Logout</Text>
-              
-              
+
+              <Text className="text-lg font-bold text-white">Logout</Text>
+
+
             </TouchableOpacity>
-          ) ,
+          ),
+
+        }} />
+        <Stack.Screen name="Publications" component={Publications} options={{
+          headerStyle: {
+            backgroundColor: '#c45c5b',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerRight: () => (
+            <TouchableOpacity
+              // style={styles.logoutButton}
+              className="mr-4 underline"
+              onPress={() => Alert.alert('Confirm Logout ?', '', [
+                {
+                  text: 'Cancel',
+
+                },
+                {
+                  text: 'Confirm', onPress: async () => {
+                    await AsyncStorage.removeItem('email');
+                    await AsyncStorage.removeItem('password');
+                    await AsyncStorage.removeItem('uid');
+                    await AsyncStorage.removeItem('name');
+                    navigation.navigate("Login");
+                    // navigation.reset({
+                    //   index: 0,
+                    //   routes: [{ name: 'Login' }],
+                    // });
+
+                  }
+                }
+              ])} >
+
+              <Text className="text-lg font-bold text-white underline">Logout</Text>
+
+
+            </TouchableOpacity>
+          ),
+        }} />
+        <Stack.Screen name="BookRenderingPage" component={BookRenderingPage} options={
+          ({ route, navigation }) => ({
+            title: route.params.book.toUpperCase(),
+            headerStyle: {
+              backgroundColor: '#c45c5b',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <TouchableOpacity
+                // style={styles.logoutButton}
+                className="mr-4 underline"
+                onPress={() => Alert.alert('Confirm Logout ?', '', [
+                  {
+                    text: 'Cancel',
+
+                  },
+                  {
+                    text: 'Confirm', onPress: async () => {
+                      await AsyncStorage.removeItem('email');
+                      await AsyncStorage.removeItem('password');
+                      await AsyncStorage.removeItem('uid');
+                      await AsyncStorage.removeItem('name');
+                      navigation.navigate("Login");
+                    }
+                  }
+                ])} >
+
+                <Text className="text-lg font-bold text-white underline">Logout</Text>
+
+
+              </TouchableOpacity>
+            ),
           })
         } />
         {/* <Stack.Screen name="TranslationPage" component={TranslationPage} options={
@@ -120,39 +169,39 @@ export default function App() {
         } /> */}
         <Stack.Screen name="SentencePage" component={SentencePage} options={
           ({ route, navigation }) => ({
-          title: route.params.bookname.toUpperCase(),
-          headerStyle: {
-            backgroundColor: '#c45c5b',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-          headerRight: () => (
-            <TouchableOpacity
-              // style={styles.logoutButton}
-              className="mr-4 underline"
-              onPress={() => Alert.alert('Confirm Logout ?' , '', [
-                {
-                  text : 'Cancel', 
-        
-                } , 
-                {
-                  text : 'Confirm' , onPress : async () => {
-                    await AsyncStorage.removeItem('email');
-                    await AsyncStorage.removeItem('password') ; 
-                    await AsyncStorage.removeItem('uid');
-                    await AsyncStorage.removeItem('name');
-                    navigation.navigate("Login") ; 
+            title: route.params.bookname.toUpperCase(),
+            headerStyle: {
+              backgroundColor: '#c45c5b',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <TouchableOpacity
+                // style={styles.logoutButton}
+                className="mr-4"
+                onPress={() => Alert.alert('Confirm Logout ?', '', [
+                  {
+                    text: 'Cancel',
+
+                  },
+                  {
+                    text: 'Confirm', onPress: async () => {
+                      await AsyncStorage.removeItem('email');
+                      await AsyncStorage.removeItem('password');
+                      await AsyncStorage.removeItem('uid');
+                      await AsyncStorage.removeItem('name');
+                      navigation.navigate("Login");
+                    }
                   }
-                }
-              ])} >
-            
-              <Text className="text-lg font-bold text-white">Logout</Text>
-              
-              
-            </TouchableOpacity>
-          ) ,
+                ])} >
+
+                <Text className="text-lg font-bold text-white underline">Logout</Text>
+
+
+              </TouchableOpacity>
+            ),
           })
         } />
         {/* <Stack.Screen name="Font" component={Font} /> */}
