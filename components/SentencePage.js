@@ -1,72 +1,143 @@
-import {Alert,  TextInput, TouchableOpacity, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect , useState } from 'react'
+import { Alert, TextInput, TouchableOpacity, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { useRoute } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { getFirestore ,onSnapshot ,collection, doc, setDoc, Timestamp } from "firebase/firestore"; 
+import { getFirestore, onSnapshot, collection, doc, setDoc, Timestamp, query, where, orderBy } from "firebase/firestore";
 import initializeFirebase from '../config/firebase';
+
 // AsyncStorage
 
+const SentencePage = ({ navigation }) => {
 
+  initializeFirebase();
+  const db = getFirestore();
+  const [ct, setct] = useState(0);
 
-const SentencePage = ({navigation}) => {
-  initializeFirebase() ; 
-    const db = getFirestore() ;
-    const [ct , setct] = useState(0);
   const route = useRoute();
-  const { bookname, bookcontent, chapter, para } = route.params
-  // console.log(bookname);
-  const [bookName , setBookName] = useState(bookname)
-  const [bookContent , setBookContent] = useState(bookcontent)
-  // console.log("Bookcontent", bookcontent);
+  const {bookname, bookcontent} = route.params
+  // console.log("bookcontent initial" , bookcontent) ; 
+  const [bookName, setBookName] = useState(bookname)
+  const [bookContent, setBookContent] = useState(bookcontent)
+  const [sentenceTillTranslated, setSentenceTillTranslated] = useState("");
+  const [completeNewSentence , setCompleteNewSentence ] = useState("") ; 
 
-  const lastSentence = bookcontent.lastSentenceTranslated;
-  // console.log(lastSentence);
-  const SentencesLeft = (bookcontent.english.split("."))
-  const [sentenceTillTranslated  , setSentenceTillTranslated] = useState(bookcontent.translationBySentence);
- 
-
+  const [englishText, setEnglishText] = useState("");
+  const [frenchText, setFrenchText] = useState("");
+  const [lastSentence , setLastSentence] = useState(null);
   
-  const newEnglishText = [];
-  for (let i = lastSentence; i < SentencesLeft.length - 1; i++) {
-    newEnglishText.push(SentencesLeft[i]);
+
+
+  useEffect(() => {
+    // console.log("count ", ct);
+
+    
+
+    const lastSentence = bookContent.lastSentenceTranslated;
+    setSentenceTillTranslated(bookContent.translationBySentence) ; 
+    setLastSentence(lastSentence);
+    const SentencesLeft = (bookContent.english.split("."))
+
+    const newEnglishText = [];
+    for (let i = lastSentence; i < SentencesLeft.length - 1; i++) {
+      newEnglishText.push(SentencesLeft[i]);
+    }
+    // if (newEnglishText.length === 0) {
+    //   Alert.alert("completed");
+    //   navigation.navigate("BookRenderingPage", { book: bookName, job: work });
+    // }
+
+    const SentencesLeftInFrench = (bookContent.french.split("."));
+    const newFrenchText = [];
+    for (let i = lastSentence; i < SentencesLeftInFrench.length - 1; i++) {
+      newFrenchText.push(SentencesLeftInFrench[i]);
+    }
+    
+
+    setFrenchText(newFrenchText[0]) ; 
+    setEnglishText(newEnglishText[0]) ; 
+
+    getBookDataFunctionForTranslation(bookName);
+   
+  }, [ct , getBookDataFunctionForTranslation]);
+
+  const getBookDataFunctionForTranslation = (name) => {
+    const userRef = collection(db, name);
+    const q = query(userRef, where("translationStatus", "==", "null"), orderBy("chapter"), orderBy('para'));
+    onSnapshot(q, (snapshot) => {
+      let book = [];
+      snapshot.docs.forEach((doc) => {
+        book.push({ ...doc.data(), id: doc.id })
+      })
+      // console.log("book0", book[0]);
+      setBookContent(book[0]);
+
+      
+    })
   }
-  // console.log(newEnglishText);
 
-  const SentencesLeftInFrench = (bookcontent.french.split(".")) ; 
-  const newFrenchText = [];
-  for (let i = lastSentence; i < SentencesLeftInFrench.length - 1; i++) {
-    newFrenchText.push(SentencesLeftInFrench[i]);
-  }
-  const [englishText , setEnglishText] = useState(newEnglishText[0]);
-  const [frenchText , setFrenchText] = useState(newFrenchText[0]);
-
-
-  const handleClick = async () => { 
-    // console.log("here1" , sentenceTillTranslated)
+  const handleClick = async () => {
+    setCompleteNewSentence(sentenceTillTranslated + frenchText)
     const userName = await AsyncStorage.getItem('name');
     const citiesRef = collection(db, bookName);
-    const date = new Date() ; 
+    const date = new Date();
     await setDoc(doc(citiesRef, bookContent.id), {
-          translatedBy : userName ,
-          translatedAt : date,
-          lastSentenceTranslated : lastSentence + 1 ,
-          translationBySentence : (sentenceTillTranslated) ,
-          translationStatus :  ((newEnglishText.length === 0) && "translation_completed" )
-          // : "translation_in_progress")
-       },{ merge: true });
-    Alert.alert("Hurray ! You just translated this sentence !\n\n" ,  "Go Ahead with next one") ; 
-    // navigation.navigate("SentencePage", {bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
-    // navigation.navigate("SentencePage", {bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
-    console.log(lastSentence);
-    console.log(bookContent.english.length);
+      translatedBy: userName,
+      translatedAt: date,
+      lastSentenceTranslated: lastSentence + 1,
+      translationBySentence: sentenceTillTranslated + frenchText ,
+      translationStatus :  (((bookContent.totalSentences)-1 === lastSentence) && "translation_completed" )
+      // : "translation_in_progress")
+    }, { merge: true });
+    // Alert.alert("Hurray ! You just translated this sentence !\n\n", "Go Ahead with next one");
+
     
-    if(newEnglishText.length  === 0){
-        navigation.navigate("BookRenderingPage");
-    }
+    Alert.alert('Done', 'Sentence Translated Successfully !', [
+      {
+        text: 'Cancel',
+        // onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      // {text: 'Next', onPress: () => navigation.navigate("SentencePage", { bookname: bookName, bookcontent: bookContent })},
+      {text: 'Next', onPress: () => {
+          // console.log()
+          const total = (bookContent.totalSentences) ; 
+          if(lastSentence === total-1){
+            Alert.alert("Paragraph Finished" , 'Sentence Translated Successfully !' , [
+              {
+                text : 'Go To Pubilcations' , onPress : () => {
+                  navigation.navigate("Publications") ; 
+                }
 
-
-    setct(ct+1);
+              } , 
+              {
+                text : 'Next Paragraph' , onPress : () => {
+                  navigation.navigate("Publications") ; 
+                }
+              }
+            ]) ; 
+          }
+          else{
+            setct(ct + 1)}
+          }
+          
+      },
+      
+    ]);
+    
+    
   }
+
+  // const nextSentence = () => {
+  //   // getBookDataFunctionForTranslation(bookName);
+  //   // console.log(frenchText);
+  //   // const translationBySentence = (sentenceTillTranslated + frenchText) ; 
+  //   // const total = translationBySentence.split(".").size ; 
+    
+  //   // console.log(total);
+  //   setct(ct+1);
+  //   navigation.navigate("SentencePage", { bookname: bookName, bookcontent: bookContent })
+  // }
+
 
   return (
     <ScrollView>
@@ -86,18 +157,16 @@ const SentencePage = ({navigation}) => {
         />
       </View>
       <View className="flex flex-row justify-around mt-12">
-
-
-        {/* <TouchableOpacity className="m-auto mt-4 ml-24 p-3 mr-24 rounded-2xl mb-12" style={styles.container} onPress={() => { }}>
-          <View className="flex flex-row justify-between m-auto">
-            <Text className="text-lg text-white font-bold underline">Previous</Text>
-          </View>
-        </TouchableOpacity> */}
         <TouchableOpacity className="m-auto mt-4 ml-24 px-7 py-3 mr-24 rounded-2xl mb-12" style={styles.container} onPress={handleClick}>
           <View className="flex flex-row justify-between m-auto">
-            <Text className="text-lg text-white font-bold underline">Next</Text>
+            <Text className="text-lg text-white font-bold underline">Save</Text>
           </View>
         </TouchableOpacity>
+        {/* <TouchableOpacity className="m-auto mt-4 ml-24 p-3 mr-24 rounded-2xl mb-12" style={styles.container} onPress={nextSentence}>
+          <View className="flex flex-row justify-between m-auto">
+            <Text className="text-lg text-white font-bold underline">Next Sentence</Text>
+          </View>
+        </TouchableOpacity> */}
 
       </View>
     </ScrollView>

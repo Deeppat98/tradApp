@@ -20,6 +20,7 @@ const BookRenderingPage = ({ navigation }) => {
     const name = route.params?.book;
     const workOnBook = route.params?.job;  //matlab is book pe kya kaam hona hai //
     //translation ya proofreading etc.. 
+
     setJob(workOnBook);
 
     setBookName(name);
@@ -35,7 +36,7 @@ const BookRenderingPage = ({ navigation }) => {
   const handleClick = (bookName, bookContent) => {
     const sentence = bookContent.english.split(".");
     setSentences(sentence);
-    navigation.navigate("SentencePage", {bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
+    navigation.navigate("SentencePage", {job : job , bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
   }
 
   const getBookDataFunctionForTranslation = (name) => {

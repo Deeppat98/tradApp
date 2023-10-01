@@ -65,7 +65,7 @@ export default function App() {
         } /> */}
         <Stack.Screen name="SentencePage" component={SentencePage} options={
           ({ route, navigation }) => ({
-          // title: route.params.bookname.toUpperCase(),
+          title: route.params.bookname.toUpperCase(),
           headerStyle: {
             backgroundColor: '#c45c5b',
           },
