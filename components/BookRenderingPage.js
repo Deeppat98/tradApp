@@ -24,19 +24,27 @@ const BookRenderingPage = ({ navigation }) => {
     setJob(workOnBook);
 
     setBookName(name);
-    if (workOnBook === 'translator') {
+    if (job === 'translator') {
       getBookDataFunctionForTranslation(name);
     }
-    if (workOnBook === 'proofreader') {
+    else if (job === 'proofreader') {
+
       getBookDataFunctionForProofReading(name);
     }
 
-  }, [])
+  }, [job])
   const [sentences , setSentences] = useState([]) ; 
+
+
   const handleClick = (bookName, bookContent) => {
     const sentence = bookContent.english.split(".");
     setSentences(sentence);
     navigation.navigate("SentencePage", {job : job , bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
+  }
+  const handleClickForProofreading = (bookName, bookContent) => {
+    // const sentence = bookContent.english.split(".");
+    // setSentences(sentence);
+    navigation.navigate("SentencePageForProofreading", {job : job , bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
   }
 
   const getBookDataFunctionForTranslation = (name) => {
@@ -63,8 +71,11 @@ const BookRenderingPage = ({ navigation }) => {
       snapshot.docs.forEach((doc) => {
         book.push({ ...doc.data(), id: doc.id })
       })
+      // console.log( "book0 " , book);
       setBookContent(book[0]);
+      // console.log("bookforProofreading" , bookContent);
       setBook(book);
+      
       // console.log(book); //here we are getting the complete book collection 
     })
   }
@@ -125,7 +136,7 @@ const BookRenderingPage = ({ navigation }) => {
                     <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
                   </View>
 
-                  <TouchableOpacity className="mt-24 ml-12 p-3 mr-12 rounded-2xl" style={styles.container} onPress={() => handleClick(bookName, bookContent)}>
+                  <TouchableOpacity className="mt-24 ml-12 p-3 mr-12 rounded-2xl" style={styles.container} onPress={() => handleClickForProofreading(bookName, bookContent)}>
                     <View>
                       <Text className="m-auto text-lg text-white font-bold">BEGIN PROOFREADING</Text>
                     </View>

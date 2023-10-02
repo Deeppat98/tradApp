@@ -7,47 +7,42 @@ import initializeFirebase from '../config/firebase';
 
 // AsyncStorage
 
-const SentencePage = ({ navigation }) => {
+const SentencePageForProofreading = ({ navigation }) => {
 
   initializeFirebase();
   const db = getFirestore();
   const [ct, setct] = useState(0);
 
   const route = useRoute();
-  const {bookname, bookcontent, job} = route.params
+  const {bookname, bookcontent, job} = route.params //bookcontent ek aaya hoga bas 
   // console.log("bookcontent initial" , bookcontent) ; 
   const [jobs , setJobs] = useState(job) ; 
   const [bookName, setBookName] = useState(bookname)
   const [bookContent, setBookContent] = useState(bookcontent)
-  const [sentenceTillTranslated, setSentenceTillTranslated] = useState("");
+  console.log(bookContent);
+
+  
+  const [sentenceTillProofread, setSentenceTillProofread] = useState("");
   const [completeNewSentence , setCompleteNewSentence ] = useState("") ; 
 
   const [englishText, setEnglishText] = useState("");
   const [frenchText, setFrenchText] = useState("");
-  const [lastSentence , setLastSentence] = useState(null);
+  const [lastSentenceProofread , setLastSentenceProofread] = useState(null);
   
 
 
   useEffect(() => {
-    // console.log("count ", ct);
-
-    
-
-    const lastSentence = bookContent.lastSentenceTranslated;
-    setSentenceTillTranslated(bookContent.translationBySentence) ; 
-    setLastSentence(lastSentence);
+    const lastSentence = bookContent.lastSentenceProofread;
+    setSentenceTillProofread(bookContent.proofreadBySentence) ; 
+    setLastSentenceProofread(lastSentence);
     const SentencesLeft = (bookContent.english.split("."))
 
     const newEnglishText = [];
     for (let i = lastSentence; i < SentencesLeft.length - 1; i++) {
       newEnglishText.push(SentencesLeft[i]);
     }
-    // if (newEnglishText.length === 0) {
-    //   Alert.alert("completed");
-    //   navigation.navigate("BookRenderingPage", { book: bookName, job: work });
-    // }
 
-    const SentencesLeftInFrench = (bookContent.french.split("."));
+    const SentencesLeftInFrench = (bookContent.translationBySentence.split("."));
     const newFrenchText = [];
     for (let i = lastSentence; i < SentencesLeftInFrench.length - 1; i++) {
       newFrenchText.push(SentencesLeftInFrench[i]);
@@ -57,13 +52,13 @@ const SentencePage = ({ navigation }) => {
     setFrenchText(newFrenchText[0]) ; 
     setEnglishText(newEnglishText[0]) ; 
 
-    getBookDataFunctionForTranslation(bookName);
+    getBookDataFunctionForProofreading(bookName);
    
-  }, [ct , getBookDataFunctionForTranslation]);
+  }, [ct , getBookDataFunctionForProofreading]);
 
-  const getBookDataFunctionForTranslation = (name) => {
+  const getBookDataFunctionForProofreading = (name) => {
     const userRef = collection(db, name);
-    const q = query(userRef, where("translationStatus", "==", "null"), orderBy("chapter"), orderBy('para'));
+    const q = query(userRef, where("translationStatus", "==", "translation_completed"), orderBy("chapter"), orderBy('para'));
     onSnapshot(q, (snapshot) => {
       let book = [];
       snapshot.docs.forEach((doc) => {
@@ -71,28 +66,26 @@ const SentencePage = ({ navigation }) => {
       })
       // console.log("book0", book[0]);
       setBookContent(book[0]);
-
-      
     })
   }
-
+  console.log(jobs);
   const handleClick = async () => {
-    setCompleteNewSentence(sentenceTillTranslated + frenchText)
+    setCompleteNewSentence(sentenceTillProofread + frenchText)
     const userName = await AsyncStorage.getItem('name');
     const citiesRef = collection(db, bookName);
     const date = new Date();
     await setDoc(doc(citiesRef, bookContent.id), {
-      translatedBy: userName,
-      translatedAt: date,
-      lastSentenceTranslated: lastSentence + 1,
-      translationBySentence: sentenceTillTranslated + frenchText ,
-      translationStatus :  (((bookContent.totalSentences)-1 === lastSentence) ? "translation_completed" : "null" )
+      proofreadBy: userName,
+      proofreadAt: date,
+      lastSentenceProofread: lastSentenceProofread + 1,
+      proofreadBySentence: sentenceTillProofread + frenchText ,
+      translationStatus :  (((bookContent.totalSentences)-1 === lastSentenceProofread) ? "proofreading_completed" : "translation_completed")
       // : "translation_in_progress")
     }, { merge: true });
     // Alert.alert("Hurray ! You just translated this sentence !\n\n", "Go Ahead with next one");
 
     
-    Alert.alert('Done', 'Sentence Translated Successfully !', [
+    Alert.alert('Done', 'Sentence Proofreading Done !', [
       {
         text: 'Cancel',
         // onPress: () => console.log('Cancel Pressed'),
@@ -102,8 +95,8 @@ const SentencePage = ({ navigation }) => {
       {text: 'Next', onPress: () => {
           // console.log()
           const total = (bookContent.totalSentences) ; 
-          if(lastSentence === total-1){
-            Alert.alert("Paragraph Finished" , 'Paragraph Translated Successfully !' , [
+          if(lastSentenceProofread === total-1){
+            Alert.alert("Paragraph Finished" , 'Paragraph Proofreading Done Successfully !' , [
               {
                 text : 'Go To Pubilcations' , onPress : () => {
                   navigation.navigate("Publications") ; 
@@ -128,21 +121,9 @@ const SentencePage = ({ navigation }) => {
     
   }
 
-  // const nextSentence = () => {
-  //   // getBookDataFunctionForTranslation(bookName);
-  //   // console.log(frenchText);
-  //   // const translationBySentence = (sentenceTillTranslated + frenchText) ; 
-  //   // const total = translationBySentence.split(".").size ; 
-    
-  //   // console.log(total);
-  //   setct(ct+1);
-  //   navigation.navigate("SentencePage", { bookname: bookName, bookcontent: bookContent })
-  // }
-
-
   return (
     <ScrollView>
-      <Text className="text-lg mt-3 mx-auto">Translate the sentence in french !</Text>
+      <Text className="text-lg mt-3 mx-auto">Proofread the sentence !</Text>
       <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
         <Text className="text-xl flex justify-center align-middle">{englishText}</Text>
       </View>
@@ -163,18 +144,14 @@ const SentencePage = ({ navigation }) => {
             <Text className="text-lg text-white font-bold underline">Save</Text>
           </View>
         </TouchableOpacity>
-        {/* <TouchableOpacity className="m-auto mt-4 ml-24 p-3 mr-24 rounded-2xl mb-12" style={styles.container} onPress={nextSentence}>
-          <View className="flex flex-row justify-between m-auto">
-            <Text className="text-lg text-white font-bold underline">Next Sentence</Text>
-          </View>
-        </TouchableOpacity> */}
+
 
       </View>
     </ScrollView>
   )
 }
 
-export default SentencePage
+export default SentencePageForProofreading
 
 const styles = StyleSheet.create({
   container: {

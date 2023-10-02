@@ -18,6 +18,7 @@ import SentencePage from './components/SentencePage'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 // import { navigationRef, isReadyRef } from './RootNavigation.js';
+import SentencePageForProofreading from './components/SentencePageForProofreading'
 
 const Stack = createNativeStackNavigator();
 
@@ -90,7 +91,7 @@ export default function App({navigation}) {
           headerRight: () => (
             <TouchableOpacity
               // style={styles.logoutButton}
-              className="mr-4 underline"
+              className=" hidden mr-4 underline"
               onPress={() => Alert.alert('Confirm Logout ?', '', [
                 {
                   text: 'Cancel',
@@ -168,6 +169,43 @@ export default function App({navigation}) {
           })
         } /> */}
         <Stack.Screen name="SentencePage" component={SentencePage} options={
+          ({ route, navigation }) => ({
+            title: route.params.bookname.toUpperCase(),
+            headerStyle: {
+              backgroundColor: '#c45c5b',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+            headerRight: () => (
+              <TouchableOpacity
+                // style={styles.logoutButton}
+                className="mr-4"
+                onPress={() => Alert.alert('Confirm Logout ?', '', [
+                  {
+                    text: 'Cancel',
+
+                  },
+                  {
+                    text: 'Confirm', onPress: async () => {
+                      await AsyncStorage.removeItem('email');
+                      await AsyncStorage.removeItem('password');
+                      await AsyncStorage.removeItem('uid');
+                      await AsyncStorage.removeItem('name');
+                      navigation.navigate("Login");
+                    }
+                  }
+                ])} >
+
+                <Text className="text-lg font-bold text-white underline">Logout</Text>
+
+
+              </TouchableOpacity>
+            ),
+          })
+        } />
+        <Stack.Screen name="SentencePageForProofreading" component={SentencePageForProofreading} options={
           ({ route, navigation }) => ({
             title: route.params.bookname.toUpperCase(),
             headerStyle: {
