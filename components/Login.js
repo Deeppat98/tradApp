@@ -1,11 +1,14 @@
 import { StatusBar, Platform , View, Alert, Text, Image, TextInput, ScrollView, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
 import { React, useEffect, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { initializeAuth ,getReactNativePersistence ,  getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import initializeFirebase from '../config/firebase.js'
 import loadFonts from '../config/loadFonts.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
+
+
+
 export default function Login({navigation}){
   
   const [username, setUsername] = useState('');
@@ -31,7 +34,10 @@ export default function Login({navigation}){
   const handleLogin = async () => {
     
     const app = initializeFirebase();
-    const auth = getAuth(app);
+    // const auth = getAuth(app);
+    const auth = initializeAuth(app, {
+      persistence: getReactNativePersistence(AsyncStorage)
+    });
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, username, password);
