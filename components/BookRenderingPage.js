@@ -59,6 +59,7 @@ const BookRenderingPage = ({ navigation }) => {
       })
       setBookContent(book[0]);
       setBook(book);
+      console.log("book" , book) ;
       setLoading(false);
     })
   }
@@ -78,6 +79,7 @@ const BookRenderingPage = ({ navigation }) => {
       setBookContent(book[0]);
       // console.log("bookforProofreading" , bookContent);
       setBook(book);
+      console.log("book" , book) ; 
       setLoading(false);
       // console.log(book); //here we are getting the complete book collection 
     })

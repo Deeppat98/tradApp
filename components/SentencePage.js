@@ -56,8 +56,12 @@ const SentencePage = ({ navigation }) => {
 
     setFrenchText(newFrenchText[0]) ; 
     setEnglishText(newEnglishText[0]) ; 
-
     getBookDataFunctionForTranslation(bookName);
+
+    if((bookContent.totalSentences)-1 === lastSentence) {
+      navigation.navigate("Publications");
+    }
+
    
   }, [ct , getBookDataFunctionForTranslation]);
 
@@ -83,8 +87,6 @@ const SentencePage = ({ navigation }) => {
     let finalText = newText.replaceAll('  ', ' ');
     finalText = finalText.trim() ; 
     finalText += "." ;
-    
-    
     console.log("cameHere" , finalText); 
     const userName = await AsyncStorage.getItem('name');
     const citiesRef = collection(db, bookName);
