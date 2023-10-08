@@ -77,7 +77,15 @@ const SentencePage = ({ navigation }) => {
   }
 
   const handleClick = async () => {
-    setCompleteNewSentence(sentenceTillTranslated + frenchText)
+    setCompleteNewSentence(sentenceTillTranslated + frenchText);
+    const newString = sentenceTillTranslated + frenchText ; 
+    let newText = newString.replaceAll('.', ' ');
+    let finalText = newText.replaceAll('  ', ' ');
+    finalText = finalText.trim() ; 
+    finalText += "." ;
+    
+    
+    console.log("cameHere" , finalText); 
     const userName = await AsyncStorage.getItem('name');
     const citiesRef = collection(db, bookName);
     const date = new Date();
@@ -85,7 +93,7 @@ const SentencePage = ({ navigation }) => {
       translatedBy: userName,
       translatedAt: date,
       lastSentenceTranslated: lastSentence + 1,
-      translationBySentence: sentenceTillTranslated + frenchText ,
+      translationBySentence: finalText ,
       translationStatus :  (((bookContent.totalSentences)-1 === lastSentence) ? "translation_completed" : "null" )
       // : "translation_in_progress")
     }, { merge: true });

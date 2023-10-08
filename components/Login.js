@@ -43,7 +43,8 @@ export default function Login({navigation}){
       const userCredential = await signInWithEmailAndPassword(auth, username, password);
       const user = userCredential.user;
       await storeData(user.uid);
-      Alert.alert("Signed In Successfully :)\n", "User Id: " + user.uid);
+      // Alert.alert("Signed In Successfully :)\n", "User Id: " + user.uid);
+      Alert.alert("Signed In Successfully :)\n");
       //localStorage me user ka data rakhna hai ab 
       navigation.navigate('Publications');
     } catch (error) {

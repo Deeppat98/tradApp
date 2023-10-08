@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
+import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
 import { useRoute } from "@react-navigation/native"
 import React, { useEffect, useState } from 'react'
 import initializeFirebase from '../config/firebase.js'
@@ -6,6 +6,8 @@ import { getFirestore } from 'firebase/firestore'
 import { collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
 
 const BookRenderingPage = ({ navigation }) => {
+
+  const [loading, setLoading] = useState(true);
   const route = useRoute();
   const app = initializeFirebase();
   const db = getFirestore();
@@ -33,18 +35,18 @@ const BookRenderingPage = ({ navigation }) => {
     }
 
   }, [job])
-  const [sentences , setSentences] = useState([]) ; 
+  const [sentences, setSentences] = useState([]);
 
 
   const handleClick = (bookName, bookContent) => {
     const sentence = bookContent.english.split(".");
     setSentences(sentence);
-    navigation.navigate("SentencePage", {job : job , bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
+    navigation.navigate("SentencePage", { job: job, bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
   }
   const handleClickForProofreading = (bookName, bookContent) => {
     // const sentence = bookContent.english.split(".");
     // setSentences(sentence);
-    navigation.navigate("SentencePageForProofreading", {job : job , bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
+    navigation.navigate("SentencePageForProofreading", { job: job, bookname: bookName, bookcontent: bookContent, chapter: chapter, para: para })
   }
 
   const getBookDataFunctionForTranslation = (name) => {
@@ -57,6 +59,7 @@ const BookRenderingPage = ({ navigation }) => {
       })
       setBookContent(book[0]);
       setBook(book);
+      setLoading(false);
     })
   }
 
@@ -75,7 +78,7 @@ const BookRenderingPage = ({ navigation }) => {
       setBookContent(book[0]);
       // console.log("bookforProofreading" , bookContent);
       setBook(book);
-      
+      setLoading(false);
       // console.log(book); //here we are getting the complete book collection 
     })
   }
@@ -83,70 +86,85 @@ const BookRenderingPage = ({ navigation }) => {
 
   return (
     <ScrollView>
-
       {
-        job === "translator"
+
+        loading === true
           ?
           <>
-          {
-            (book.length === 0)
-            ?
-            <>
-            <View className="mt-10 ml-10 mr-10 text-2xl font-semibold">
-              <Text className="text-xl m-auto font-semibold">Translation Completed !</Text>
-            </View>
-            </>
-            :
-            <>
-            <View className="mt-4">
-              <Text className="text-lg ml-4">Read The Paragraph Carefully :</Text>
-            </View>
-            <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
-              <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
-            </View>
 
-            <TouchableOpacity className="mt-24 ml-12 p-3 mr-12 rounded-2xl" style={styles.container} onPress={() => handleClick(bookName, bookContent)}>
-              <View>
-                <Text className="m-auto text-lg text-white font-bold">BEGIN TRANSLATION</Text>
-              </View>
-            </TouchableOpacity>
-            </>
-          }
-            
+              <ActivityIndicator size = "large" className="mt-12" color="#c45c5b" />
           </>
 
           :
 
-
           <>
             {
-              (book.length === 0)
+              job === "translator"
                 ?
                 <>
-                <View className="mt-10 ml-10 mr-10 text-2xl font-semibold">
-                  <Text>Please Wait While Translation Work Is Going On For This Text !!</Text>
-                </View>
+                  {
+                    (book.length === 0)
+                      ?
+                      <>
+                        <View className="mt-10 ml-10 mr-10 text-2xl font-semibold">
+                          <Text className="text-xl m-auto font-semibold">Fetching Data.... !</Text>
+                        </View>
+                      </>
+                      :
+                      <>
+                        <View className="mt-4">
+                          <Text className="text-lg ml-4">Read The Paragraph Carefully :</Text>
+                        </View>
+                        <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
+                          <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
+                        </View>
+
+                        <TouchableOpacity className="mt-24 ml-12 p-3 mr-12 rounded-2xl" style={styles.container} onPress={() => handleClick(bookName, bookContent)}>
+                          <View>
+                            <Text className="m-auto text-lg text-white font-bold">BEGIN TRANSLATION</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </>
+                  }
+
                 </>
+
                 :
+
+
                 <>
-                  <View className="mt-4">
-                    <Text className="text-lg ml-4">Read The Paragraph Carefully :</Text>
-                  </View>
-                  <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
-                    <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
-                  </View>
+                  {
+                    (book.length === 0)
+                      ?
+                      <>
+                        <View className="mt-10 mx-auto">
+                          <Text className="font-semibold text-lg">Translation For This Text Is Still Pending !</Text>
+                        </View>
+                      </>
+                      :
+                      <>
+                        <View className="mt-4">
+                          <Text className="text-lg ml-4">Read The Paragraph Carefully :</Text>
+                        </View>
+                        <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
+                          <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
+                        </View>
 
-                  <TouchableOpacity className="mt-24 ml-12 p-3 mr-12 rounded-2xl" style={styles.container} onPress={() => handleClickForProofreading(bookName, bookContent)}>
-                    <View>
-                      <Text className="m-auto text-lg text-white font-bold">BEGIN PROOFREADING</Text>
-                    </View>
-                  </TouchableOpacity>
+                        <TouchableOpacity className="mt-24 ml-12 p-3 mr-12 rounded-2xl" style={styles.container} onPress={() => handleClickForProofreading(bookName, bookContent)}>
+                          <View>
+                            <Text className="m-auto text-lg text-white font-bold">BEGIN PROOFREADING</Text>
+                          </View>
+                        </TouchableOpacity>
+                      </>
+
+                  }
+
                 </>
-
             }
-
           </>
       }
+
+
 
     </ScrollView>
 
