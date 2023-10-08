@@ -1,4 +1,4 @@
-import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
+import { Alert  , ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View, Text } from 'react-native'
 import { useRoute } from "@react-navigation/native"
 import React, { useEffect, useState } from 'react'
 import initializeFirebase from '../config/firebase.js'
@@ -57,10 +57,23 @@ const BookRenderingPage = ({ navigation }) => {
       snapshot.docs.forEach((doc) => {
         book.push({ ...doc.data(), id: doc.id })
       })
-      setBookContent(book[0]);
-      setBook(book);
-      console.log("book" , book) ;
-      setLoading(false);
+      console.log('book' , book);
+
+
+
+      if(book.length > 0){
+        setBookContent(book[0]);
+        setBook(book);
+        // console.log("book" , book) ;
+        // if(bookContent === undefined)
+        setLoading(false);
+      }
+      
+      else{
+        Alert.alert("Translation Done For This Text !")
+        navigation.navigate("Publications")
+      }
+      
     })
   }
 
@@ -75,13 +88,19 @@ const BookRenderingPage = ({ navigation }) => {
       snapshot.docs.forEach((doc) => {
         book.push({ ...doc.data(), id: doc.id })
       })
+      
       // console.log( "book0 " , book);
-      setBookContent(book[0]);
-      // console.log("bookforProofreading" , bookContent);
-      setBook(book);
-      console.log("book" , book) ; 
-      setLoading(false);
-      // console.log(book); //here we are getting the complete book collection 
+      if(book.length > 0){
+        setBookContent(book[0]);
+        setBook(book);
+        setLoading(false);
+      }
+
+      else{
+        Alert.alert("Translation Work is in Progress !")
+        navigation.navigate("Publications")
+      }
+      
     })
   }
 
@@ -109,7 +128,7 @@ const BookRenderingPage = ({ navigation }) => {
                       ?
                       <>
                         <View className="mt-10 ml-10 mr-10 text-2xl font-semibold">
-                          <Text className="text-xl m-auto font-semibold">Fetching Data.... !</Text>
+                          <Text className="text-xl m-auto font-semibold">Translation is Completed For This Book !</Text>
                         </View>
                       </>
                       :

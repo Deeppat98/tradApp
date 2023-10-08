@@ -40,7 +40,7 @@ export default function App({navigation}) {
     <NavigationContainer>
       <Stack.Navigator>
 
-        <Stack.Screen name="Login" component={Login} options={{
+        {/* <Stack.Screen name="Login" component={Login} options={{
           headerStyle: {
             backgroundColor: '#c45c5b',
           },
@@ -79,7 +79,7 @@ export default function App({navigation}) {
             </TouchableOpacity>
           ),
 
-        }} />
+        }} /> */}
         <Stack.Screen name="Publications" component={Publications} options={{
           headerStyle: {
             backgroundColor: '#c45c5b',

@@ -58,9 +58,9 @@ const SentencePage = ({ navigation }) => {
     setEnglishText(newEnglishText[0]) ; 
     getBookDataFunctionForTranslation(bookName);
 
-    if((bookContent.totalSentences)-1 === lastSentence) {
-      navigation.navigate("Publications");
-    }
+    // if((bookContent.totalSentences)-1 === lastSentence) {
+    //   navigation.navigate("Publications");
+    // }
 
    
   }, [ct , getBookDataFunctionForTranslation]);
