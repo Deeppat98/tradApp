@@ -19,11 +19,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 // import { navigationRef, isReadyRef } from './RootNavigation.js';
 import SentencePageForProofreading from './components/SentencePageForProofreading'
+import AdminPanel from './components/AdminPanel';
+import UserCards from './components/UserCards';
+
 
 const Stack = createNativeStackNavigator();
 
 
-export default function App({navigation}) {
+export default function App({ navigation }) {
   // React.useEffect(() => {
   //   return () => {
   //     isReadyRef.current = false
@@ -50,7 +53,6 @@ export default function App({navigation}) {
           },
           headerRight: () => (
             <TouchableOpacity
-              // style={styles.logoutButton}
               className="mr-4 underline hidden"
               onPress={() => Alert.alert('Confirm Logout ?', '', [
                 {
@@ -64,22 +66,39 @@ export default function App({navigation}) {
                     await AsyncStorage.removeItem('uid');
                     await AsyncStorage.removeItem('name');
                     navigation.navigate("Login");
-                    // navigation.reset({
-                    //   index: 0,
-                    //   routes: [{ name: 'Login' }],
-                    // });
-
+                   
                   }
                 }
               ])} >
 
-              <Text className="text-lg font-bold text-white">Logout</Text>
 
 
             </TouchableOpacity>
           ),
 
         }} /> */}
+
+        <Stack.Screen name="Admin Panel" component={AdminPanel} options={{
+          headerStyle: {
+            backgroundColor: '#c45c5b',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }} />
+        <Stack.Screen name="UserCards" component={UserCards} options={
+          ({ route, navigation }) => ({
+            title: route.params.name ,
+            headerStyle: {
+              backgroundColor: '#c45c5b',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            }
+          })
+        } />
         <Stack.Screen name="Publications" component={Publications} options={{
           headerStyle: {
             backgroundColor: '#c45c5b',
@@ -119,6 +138,7 @@ export default function App({navigation}) {
             </TouchableOpacity>
           ),
         }} />
+
         <Stack.Screen name="BookRenderingPage" component={BookRenderingPage} options={
           ({ route, navigation }) => ({
             title: route.params.book.toUpperCase(),

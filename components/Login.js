@@ -23,7 +23,7 @@ export default function Login({navigation}){
     try {
       await AsyncStorage.setItem('email', username);
       await AsyncStorage.setItem('password' , password) ; 
-      await AsyncStorage.setItem('uid' , uid);
+      // await AsyncStorage.setItem('uid' , uid);
       // await AsyncStorage.setItem('name' , name);
       console.log('set hai');
     } catch (e) {
@@ -35,18 +35,31 @@ export default function Login({navigation}){
     
     const app = initializeFirebase();
     // const auth = getAuth(app);
-    const auth = initializeAuth(app, {
-      persistence: getReactNativePersistence(AsyncStorage)
-    });
+    // const auth = initializeAuth(app, {
+    //   persistence: getReactNativePersistence(AsyncStorage)
+    // });
+    const auth = initializeAuth(app);
+
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, username, password);
       const user = userCredential.user;
+      const userEmail = user.email ; 
       await storeData(user.uid);
-      // Alert.alert("Signed In Successfully :)\n", "User Id: " + user.uid);
-      Alert.alert("Signed In Successfully :)\n");
-      //localStorage me user ka data rakhna hai ab 
-      navigation.navigate('Publications');
+      console.log(userEmail) ; 
+      //For Admin
+      if(userEmail === "admin@gmail.com"){
+        Alert.alert("Admin Logged In Successfully :)\n");
+        navigation.navigate('Admin Panel');
+      }
+
+      //For User of Application
+      else{
+        Alert.alert("Signed In Successfully :)\n");
+        navigation.navigate('Publications');
+      }
+      console.log(user);
+      
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
