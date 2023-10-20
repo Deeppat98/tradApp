@@ -152,9 +152,9 @@ const SentencePage = ({ navigation }) => {
 
   return (
     <ScrollView>
-      <Text className="text-lg mt-3 mx-auto">Translate the sentence in french !</Text>
+      <Text className="text-lg mt-3 mx-auto" style={{fontFamily : "MontserratBold"}}>Translate the sentence in french !</Text>
       <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
-        <Text className="text-xl flex justify-center align-middle">{englishText}</Text>
+        <Text className="text-xl flex justify-center align-middle" style={{fontFamily : "MontserratSemiBold"}}>{englishText}</Text>
       </View>
 
       <View className="h-fit w-3/4 mt-8 text-lg mx-auto flex justify-center align-middle bg-white">
@@ -164,13 +164,13 @@ const SentencePage = ({ navigation }) => {
           className="text-lg"
           value={frenchText}
           onChangeText={text => setFrenchText(text)}
-          style={{ padding: 10, textAlign: 'justify' }}
+          style={{ padding: 10, textAlign: 'justify' ,fontFamily : "MontserratSemiBold"}}
         />
       </View>
       <View className="flex flex-row justify-around mt-12">
         <TouchableOpacity className="m-auto mt-4 ml-24 px-7 py-3 mr-24 rounded-2xl mb-12" style={styles.container} onPress={handleClick}>
           <View className="flex flex-row justify-between m-auto">
-            <Text className="text-lg text-white font-bold underline">Save</Text>
+            <Text className="text-lg text-white font-bold underline" style={{fontFamily : "MontserratBold"}}>Save</Text>
           </View>
         </TouchableOpacity>
         {/* <TouchableOpacity className="m-auto mt-4 ml-24 p-3 mr-24 rounded-2xl mb-12" style={styles.container} onPress={nextSentence}>
@@ -189,5 +189,6 @@ export default SentencePage
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#c45c5b",
+    fontFamily : "MontserratBold"
   }
 });

@@ -51,7 +51,7 @@ const TranslationPage = ({navigation}) => {
     }
   return (
     <ScrollView>
-      <Text className="text-lg mt-3 mx-auto">Translate the previous read text in french !</Text>
+      <Text className="text-lg mt-3 mx-auto" style={{fontFamily : "MontserratBold"}}>Translate the previous read text in french !</Text>
       <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
         <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
       </View>

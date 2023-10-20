@@ -134,10 +134,10 @@ const BookRenderingPage = ({ navigation }) => {
                       :
                       <>
                         <View className="mt-4">
-                          <Text className="text-lg ml-4">Read The Paragraph Carefully :</Text>
+                          <Text className="text-lg ml-4" style={{fontFamily : "MontserratBold"}}>Read The Paragraph Carefully :</Text>
                         </View>
                         <View className=" w-3/4 mt-8 mx-auto flex justify-center align-middle">
-                          <Text className="text-xl flex justify-center align-middle">{bookContent.english}</Text>
+                          <Text className="text-xl flex justify-center align-middle font-100" style={{fontFamily : "MontserratSemiBold" , fontWeight : "lighter"}}>{bookContent.english}</Text>
                         </View>
 
                         <TouchableOpacity className="mt-24 ml-12 p-3 mr-12 rounded-2xl" style={styles.container} onPress={() => handleClick(bookName, bookContent)}>

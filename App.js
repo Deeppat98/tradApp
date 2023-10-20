@@ -8,49 +8,46 @@ import EachItem from './components/EachItem'
 import Items from './components/Items'
 import Login from './components/Login'
 import Content from './components/Content'
-import { useFonts } from 'expo-font';
+// import { useFonts } from 'expo-font';
 import Publications from './components/Publications';
-import Font from './components/Font'
+// import Font from './components/Font'
 import BookRenderingPage from './components/BookRenderingPage'
 import TranslationPage from './components/TranslationPage'
 import Logout from './components/Logout'
 import SentencePage from './components/SentencePage'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-// import { navigationRef, isReadyRef } from './RootNavigation.js';
 import SentencePageForProofreading from './components/SentencePageForProofreading'
 import AdminPanel from './components/AdminPanel';
 import UserCards from './components/UserCards';
-
+import { useFonts } from 'expo-font';
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App({ navigation }) {
-  // React.useEffect(() => {
-  //   return () => {
-  //     isReadyRef.current = false
-  //   };
-  // }, []);
-  // const navigation = useNavigation();
+
+  const [loaded] = useFonts({
+    MontserratSemiBold : require("./assets/fonts/Montserrat-SemiBold.ttf"),
+    MontserratBold : require("./assets/fonts/Montserrat-Bold.ttf")
+  })
+  if(!loaded) return null ;
 
 
   return (
-    // <NavigationContainer ref={navigationRef}
-    //   onReady={() => {
-    //     isReadyRef.current = true;
-    //   }}>
+
     <NavigationContainer>
       <Stack.Navigator>
 
-        {/* <Stack.Screen name="Login" component={Login} options={{
+        <Stack.Screen name="Login" component={Login} options={{
           headerStyle: {
             backgroundColor: '#c45c5b',
+            fontFamily :  "MontserratBold"
           },
           headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
+          // headerTitleStyle: {
+          //   fontWeight: 'bold',
+          // },
           headerRight: () => (
             <TouchableOpacity
               className="mr-4 underline hidden"
@@ -76,11 +73,12 @@ export default function App({ navigation }) {
             </TouchableOpacity>
           ),
 
-        }} /> */}
+        }} />
 
         <Stack.Screen name="Admin Panel" component={AdminPanel} options={{
           headerStyle: {
             backgroundColor: '#c45c5b',
+            fontFamily :  "MontserratBold"
           },
           headerTintColor: '#fff',
           headerTitleStyle: {

@@ -5,6 +5,7 @@ import initializeFirebase from '../config/firebase.js'
 import { getFirestore, onSnapshot, doc, getDoc, getDocs } from "firebase/firestore";
 import { collection, query, where } from "firebase/firestore";
 import { ModalRN } from './ModalRN.js'
+import { useFonts } from 'expo-font';
 
 export default function UserCards() {
     const app = initializeFirebase();
@@ -34,6 +35,12 @@ export default function UserCards() {
 
     }
 
+    const [loaded] = useFonts({
+        MontserratSemiBold : require("../assets/fonts/Montserrat-SemiBold.ttf"),
+        MontserratBold : require("../assets/fonts/Montserrat-Bold.ttf")
+      })
+      if(!loaded) return null ;
+
 
     return (
         <ScrollView>
@@ -45,15 +52,15 @@ export default function UserCards() {
             <View className="ml-6 mt-12">
                 <View className="w-2/3 flex flex-row justify-between">
 
-                    <Text className="text-xl font-semibold underline" >Email-Id:</Text>
-                    <Text className="text-xl text-[#c45c5b] font-semibold">
+                    <Text className="text-xl underline" style={{fontFamily : "MontserratBold"}}>Email-Id:</Text>
+                    <Text className="text-xl text-[#c45c5b]" style={{fontFamily : "MontserratSemiBold"}}>
                         {userData.emailId}
                     </Text>
                 </View>
 
                 <View className="w-1/2 flex flex-row justify-between">
-                    <Text className="text-xl font-semibold underline" >Password: </Text>
-                    <Text className="text-xl text-[#c45c5b] font-semibold">
+                    <Text className="text-xl underline" style={{fontFamily : "MontserratBold"}}>Password:</Text>
+                    <Text className="text-xl text-[#c45c5b]" style={{fontFamily : "MontserratSemiBold"}}>
                         {userData.password}
                     </Text>
                 </View>
@@ -69,8 +76,8 @@ export default function UserCards() {
                             <TouchableOpacity key={index} className="mt-4 p-5 mr-4 rounded-2xl" style={styles.container} onPress={() => handleClick()} >
                                 <View className="flex flex-row justify-between"  >
                                     {/* <Text className="text-lg text-white font-bold">{item.charAt(0).toUpperCase() + item.slice(1)}</Text> */}
-                                    <Text className="text-lg text-white font-bold">{item.toUpperCase()}</Text>
-                                    <Text className="text-lg text-white font-bold underline">{userData.jobs[item].toUpperCase()}</Text>
+                                    <Text className="text-lg text-white" style={{fontFamily : "MontserratBold"}}>{item.toUpperCase()}</Text>
+                                    <Text className="text-lg text-white underline" style={{fontFamily : "MontserratBold"}}>{userData.jobs[item].toUpperCase()}</Text>
                                 </View>
                                 {/* <View>
 

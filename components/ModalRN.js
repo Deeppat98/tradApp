@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {TextInput , Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import { useFonts } from 'expo-font';
+
 
 export const ModalRN = ({emailId}) => {
 
@@ -16,7 +18,11 @@ export const ModalRN = ({emailId}) => {
   const handleChange =(e)=>{
     setNewJob({...newjob , [e.target.name] : e.target.value})
   }
-
+  const [loaded] = useFonts({
+    MontserratSemiBold : require("../assets/fonts/Montserrat-SemiBold.ttf"),
+    MontserratBold : require("../assets/fonts/Montserrat-Bold.ttf")
+  })
+  if(!loaded) return null ;
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -60,7 +66,7 @@ export const ModalRN = ({emailId}) => {
       <Pressable
         style={[styles.button, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>Assign a New Text</Text>
+        <Text style={styles.textStyle} >Assign a New Text</Text>
       </Pressable>
     </View>
   );
@@ -114,7 +120,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize : 17 
+    fontSize : 17 ,
+   fontFamily : "MontserratBold"
   },
   modalText: {
     marginBottom: 15,

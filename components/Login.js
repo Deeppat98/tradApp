@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     // color: "#c45c5b",
     marginLeft: 40,
     // fontFamily : `${MontserratSemiBold}`
-    fontFamily : "MontserratSemiBold"
+    fontFamily : "MontserratBold"
 
   },
 
@@ -177,6 +177,6 @@ const styles = StyleSheet.create({
     fontSize: hp('2.5%'),
     fontWeight: "bold",
     // fontFamily : `${MontserratSemiBold}`
-    fontFamily : "MontserratSemiBold"
+    fontFamily : "MontserratBold"
   },
 });
