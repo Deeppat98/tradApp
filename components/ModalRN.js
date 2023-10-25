@@ -1,28 +1,48 @@
-import React, {useState} from 'react';
-import {TextInput , Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import React, { useState } from 'react';
+import { TextInput, Alert, Modal, StyleSheet, Text, Pressable, View, Button } from 'react-native';
 import { useFonts } from 'expo-font';
+import { getFirestore, onSnapshot, collection, doc, setDoc, Timestamp, query, where, orderBy } from "firebase/firestore";
+import initializeFirebase from '../config/firebase';
+import Dropdown from './Dropdown'
 
 
-export const ModalRN = ({emailId}) => {
+export const ModalRN = ({ navigation , userId , func , jobs , ct }) => {
 
+  initializeFirebase();
+  const db = getFirestore();
   const [modalVisible, setModalVisible] = useState(false);
+  const [count , setCount] = useState(ct) ; 
+  const [textName, setTextName] = useState("");
+  const [jobName, setJobName] = useState("");
 
-  const [newjob , setNewJob] = useState({name : "" , jobType : ""}) ; 
 
   const ConfirmHandler = () => {
-    setModalVisible(!modalVisible) ; 
-    // code for adding the newjob object to the jobs of the user database 
+    setModalVisible(!modalVisible);
   }
-  console.log(newjob) ; 
 
-  const handleChange =(e)=>{
-    setNewJob({...newjob , [e.target.name] : e.target.value})
-  }
   const [loaded] = useFonts({
-    MontserratSemiBold : require("../assets/fonts/Montserrat-SemiBold.ttf"),
-    MontserratBold : require("../assets/fonts/Montserrat-Bold.ttf")
+    MontserratSemiBold: require("../assets/fonts/Montserrat-SemiBold.ttf"),
+    MontserratBold: require("../assets/fonts/Montserrat-Bold.ttf")
   })
-  if(!loaded) return null ;
+  if (!loaded) return null;
+
+
+  const usersRef = collection(db, 'users');
+  const addBookHandler = async () => {
+
+    await setDoc(doc(usersRef, userId), {
+      jobs : {[textName] : jobName}   //added to map data 
+    }, { merge: true });
+    setModalVisible(!modalVisible) ; 
+
+    Alert.alert("Success" , "Text and Job Assigned Successfully" )
+    setTextName("") ;
+    setJobName("") ; 
+    // navigation.navigate("Admin Panel"); 
+    func(count + 1) ; 
+  }
+
+  
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -35,30 +55,29 @@ export const ModalRN = ({emailId}) => {
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {/* <Text style={styles.modalText}>Hello World!</Text>
-            <Text style={styles.modalText}>Hello World!</Text> */}
+      
             <TextInput
-            name="name"
-        style={styles.input}
-        onChange={text => setNewJob({name : text})}
-        value={newjob.name}
-        placeholder="Enter Text Name"
-        keyboardType="text"
-      />
+              name="textName"
+              style={styles.input}
+              onChangeText={setTextName}
+              value={textName}
+              placeholder="Enter Text Name"
+              keyboardType="text"
+            />
+
             <TextInput
-            name="jobType"
-        style={styles.input}
-        onChange={text => setNewJob({jobType : text})}
-        value={newjob.jobType}
-        placeholder="Enter Job Type"
-        keyboardType="text"
-      />
+              name="jobName"
+              style={styles.input}
+              onChangeText={setJobName}
+              value={jobName}
+              placeholder="Enter Job Type"
+              keyboardType="text"
+            />
             <Pressable
               style={[styles.button, styles.buttonClose]}
               // onPress={() => setModalVisible(!modalVisible)}>
-              onPress={ConfirmHandler}>
+              onPress={addBookHandler}>
               <Text style={styles.textStyle}>Confirm</Text>
-              {/* onPress={addBookHandler} */}
             </Pressable>
           </View>
         </View>
@@ -68,6 +87,7 @@ export const ModalRN = ({emailId}) => {
         onPress={() => setModalVisible(true)}>
         <Text style={styles.textStyle} >Assign a New Text</Text>
       </Pressable>
+
     </View>
   );
 };
@@ -79,9 +99,9 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 12,
     borderWidth: 1,
-    borderRadius : 50 , 
+    borderRadius: 50,
     padding: 10,
-    width: 200 , 
+    width: 200,
   },
   centeredView: {
     flex: 1,
@@ -105,7 +125,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    marginTop : 25 , 
+    marginTop: 25,
     borderRadius: 20,
     padding: 10,
     elevation: 2,
@@ -120,13 +140,13 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize : 17 ,
-   fontFamily : "MontserratBold"
+    fontSize: 17,
+    fontFamily: "MontserratBold"
   },
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
-    fontSize : 17 
+    fontSize: 17
   },
 });
 

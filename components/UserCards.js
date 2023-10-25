@@ -12,27 +12,48 @@ export default function UserCards() {
     const db = getFirestore();
     const route = useRoute();
 
+    // const [ct , setCt] = useState(0) ; 
+
+    // const updateFunction = (count) => {
+    //     setCt(count + 1) ; 
+    // }
+
     const [userData, setUserData] = useState({});
     const [books, setBooks] = useState([]);
+
+
+    const getBookInRealTime = (emailId) => {
+        const userRef = collection(db, "users");
+        const q = query(userRef, where("emailId", "==", emailId));
+        onSnapshot(q, (snapshot) => {
+          let book = [];
+          snapshot.docs.forEach((doc) => {
+            book.push({ ...doc.data(), id: doc.id })
+          })
+          // console.log("book0", book[0]);
+          setBookContent(book[0]);
+    
+          
+        })
+      }
 
     useEffect(() => {
         const name = route.params?.name;
         const emailId = route.params?.emailId;
         const password = route.params?.password;
         const jobs = route.params?.jobs;
+        const userID = route.params?.id ; 
 
         // console.log(name , emailId , password , jobs) ; 
 
-        setUserData({ name, emailId, password, jobs });
+        setUserData({ name, emailId, password, jobs , userID });
         setBooks(Object.keys(jobs));
-        // console.log("here , " , userData) ; 
+        console.log("here , " , userData) ; 
 
     }, []);
 
-    console.log("here , ", userData);
+    // console.log("here , ", userData);
     const handleClick = () => {
-
-
     }
 
     const [loaded] = useFonts({
@@ -44,11 +65,6 @@ export default function UserCards() {
 
     return (
         <ScrollView>
-            {/* <View className="ml-8">
-                <Text >
-                    {userData.name}
-                </Text>
-            </View> */}
             <View className="ml-6 mt-12">
                 <View className="w-2/3 flex flex-row justify-between">
 
@@ -95,7 +111,7 @@ export default function UserCards() {
                     
             </TouchableOpacity> */}
 
-            <ModalRN email={userData.emailId} />
+            <ModalRN email={userData.emailId} jobs = {userData.jobs} userId = {userData.userID} func={updateFunction} ct = {ct} />
 
 
 

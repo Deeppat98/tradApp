@@ -11,9 +11,6 @@ const AdminPanel = ({navigation}) => {
   const db = getFirestore();
   const [usersData, setUsersData] = useState([]);
   const [loading , setLoading] = useState(true);
-  
-
-  
 
   const getUsers = async () => {
     const userRef = collection(db, 'users');
@@ -31,8 +28,9 @@ const AdminPanel = ({navigation}) => {
   }
 
   const handleClick = (name , emailId , id , jobs , password) => {
-    navigation.navigate("UserCards" , {name: name, emailId : emailId , jobs : jobs , password :  password }); 
+    navigation.navigate("UserCards" , {name: name, emailId : emailId , jobs : jobs , password :  password  , id : id}); 
   }
+  
   useEffect(() => {
     getUsers();
   }, [])

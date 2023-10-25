@@ -23,7 +23,7 @@ export default function Login({navigation}){
     try {
       await AsyncStorage.setItem('email', username);
       await AsyncStorage.setItem('password' , password) ; 
-      // await AsyncStorage.setItem('uid' , uid);
+      await AsyncStorage.setItem('uid' , uid);
       // await AsyncStorage.setItem('name' , name);
       console.log('set hai');
     } catch (e) {
