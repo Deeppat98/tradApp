@@ -111,7 +111,7 @@ export default function UserCards() {
                     
             </TouchableOpacity> */}
 
-            <ModalRN email={userData.emailId} jobs = {userData.jobs} userId = {userData.userID} func={updateFunction} ct = {ct} />
+            <ModalRN email={userData.emailId} jobs = {userData.jobs} userId = {userData.userID} />
 
 
 

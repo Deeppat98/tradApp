@@ -39,7 +39,7 @@ export default function App({ navigation }) {
     <NavigationContainer>
       <Stack.Navigator>
 
-        {/* <Stack.Screen name="Login" component={Login} options={{
+         <Stack.Screen name="Login" component={Login} options={{
           headerStyle: {
             backgroundColor: '#c45c5b',
             fontFamily :  "MontserratBold"
@@ -70,7 +70,7 @@ export default function App({ navigation }) {
             </TouchableOpacity>
           ),
 
-        }} /> */}
+        }} /> 
 
         <Stack.Screen name="Admin Panel" component={AdminPanel} options={{
           headerStyle: {
