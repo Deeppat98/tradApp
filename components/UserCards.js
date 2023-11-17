@@ -82,9 +82,6 @@ export default function UserCards() {
                 </View>
             </View>
 
-            {/* <View>
-                <Text>List of Texts Alloted</Text>
-            </View> */}
             <View className="mt-5 ml-4 flex flex-col space-y-3">
                 {
                     books.map((item, index) => {
